@@ -1,7 +1,7 @@
 # Welcome to Kiko's Contributing guide
 Thank you for supporting and contributing to this project! Any contributions made will be on [README](https://github.com/Nota30/Kiko/#contributors)
 
-Read our [Code of Conduct](https://github.com/Nota30/Kiko/.github/CODE_OF_CONDUCT.md) to keep our community safe and approchable.
+Read our [Code of Conduct](https://github.com/Nota30/Kiko/blob/main/.github/CODE_OF_CONDUCT.md) to keep our community safe and approchable.
 
 ## Contributing
 ### Issues/Bugs
