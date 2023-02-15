@@ -1,6 +1,7 @@
 package bot
 
 import (
+	"github.com/Nota30/Kiko/lib/bot/events"
 	"github.com/Nota30/Kiko/tools"
 	"github.com/bwmarrin/discordgo"
 	"github.com/jonas747/dshardmanager"
@@ -15,7 +16,7 @@ var (
 	shardCount int
 )
 
-func DiscordConnect () {
+func DiscordConnect() {
 	shardManger()
 	logrus.Info("Starding Sharder")
 	Sharder.Init()
@@ -50,9 +51,5 @@ func shardManger() {
 		return
 	}
 
-	Sharder.AddHandler(interactionCreate)
-}
-
-func interactionCreate(s *discordgo.Session,  m *discordgo.InteractionCreate) {
-	tools.Respond(s, m, "Pong!")
+	Sharder.AddHandler(events.EventHandler)
 }
