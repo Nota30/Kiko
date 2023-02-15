@@ -26,8 +26,8 @@ func DiscordConnect() {
 func shardManger() {
 	Sharder = dshardmanager.New(tools.GetEnv("DISCORD_TOKEN"))
 	Sharder.Name = "Kiko"
-	Sharder.LogChannel = "986122070607949834"
-	Sharder.StatusMessageChannel = "986122070607949834"
+	Sharder.LogChannel = tools.GetEnv("LOG_CHANNEL")
+	Sharder.StatusMessageChannel = tools.GetEnv("STATUS_CHANNEL")
 
 	recommended, err := Sharder.GetRecommendedCount()
 	if err != nil {
