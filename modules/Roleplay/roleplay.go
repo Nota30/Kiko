@@ -11,6 +11,6 @@ import (
 
 func Actions (s *discordgo.Session, m *discordgo.MessageCreate, action string) {
 	logrus.Info(action)
-	cache.Client.SetEx(cache.Ctx, "hello", "bye", time.Hour)
-	database.Db.Raw("INSERT INTO ROLEPLAY_COUNT (discord_id, type, send, received) VALUES (?, ?, ?, ?)", m.Author.ID, "hug", 1, 2)
+	cache.Client.SetEx(cache.Ctx, "hello", "byezz", time.Hour)
+	database.Db.Exec("INSERT INTO ROLEPLAY_COUNT (discord_id, type, send, received) VALUES (?, ?, ?, ?)", m.Author.ID, "hug", 1, 2)
 }
