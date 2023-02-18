@@ -3,7 +3,6 @@ package events
 import (
 	"fmt"
 
-	"github.com/Nota30/Kiko/tools"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -18,8 +17,3 @@ func EventHandler(s *discordgo.Session, evt interface{}) {
 		fmt.Println("A Interaction happened!")
 	}
 }
-
-// To be removed
-// func interactionCreate(s *discordgo.Session,  m *discordgo.InteractionCreate) {
-// 	tools.Respond(s, m, "Pong!")
-// }
