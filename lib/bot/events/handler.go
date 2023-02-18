@@ -19,6 +19,7 @@ func EventHandler(s *discordgo.Session, evt interface{}) {
 	}
 }
 
-func interactionCreate(s *discordgo.Session,  m *discordgo.InteractionCreate) {
-	tools.Respond(s, m, "Pong!")
-}
+// To be removed
+// func interactionCreate(s *discordgo.Session,  m *discordgo.InteractionCreate) {
+// 	tools.Respond(s, m, "Pong!")
+// }
