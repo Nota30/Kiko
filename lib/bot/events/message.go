@@ -23,7 +23,7 @@ func MSGHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	args := getCommand(m.Content, 2)
+	args := getCommand(m.Content, len(prefix))
 	cmd := strings.Split(strings.ToLower(args), " ")
 	exists := stringInSlice(cmd[0], commands)
 
@@ -35,21 +35,17 @@ func MSGHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func getCommand(str string, n int) string {
-	m := 0
-    for i := range str {
-        if m >= n {
-            return str[i:]
-        }
-        m++
-    }
-    return str[:0]
+	if len(str) >= n {
+		return str[n:]
+	}
+	return str[:0]
 }
 
 func stringInSlice(a string, list []string) bool {
-    for _, b := range list {
-        if b == a {
-            return true
-        }
-    }
-    return false
+	for _, b := range list {
+		if b == a {
+			return true
+		}
+	}
+	return false
 }
