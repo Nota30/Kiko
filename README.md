@@ -21,3 +21,4 @@ Self-hosting kiko is currently not supported. If you still want to self-host kik
 * Nota#1588 (Lead Developer) ([Github](https://github.com/Nota30))
 
 ## Contributors
+* Skizzers#1980 ([Github](https://github.com/Tech13-08))
