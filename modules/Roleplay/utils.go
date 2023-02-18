@@ -61,7 +61,7 @@ func getCount (action string, author discordgo.User, mention discordgo.User) (in
 	bdata := findData(mention.ID, result)
 
 	if adata == nil {
-		*adata = rp{
+		adata = &rp{
 			Id: 0,
 			Discord_id: author.ID,
 			Type: action,
@@ -75,7 +75,7 @@ func getCount (action string, author discordgo.User, mention discordgo.User) (in
 	}
 
 	if bdata == nil {
-		*bdata = rp{
+		bdata = &rp{
 			Id: 0,
 			Discord_id: mention.ID,
 			Type: action,
