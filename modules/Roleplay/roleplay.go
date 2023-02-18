@@ -17,9 +17,9 @@ func Actions (s *discordgo.Session,  m *discordgo.MessageCreate, action string) 
 				mention = m.Author
 				title = "**{0}** is hugging themselves"
 				footer = "{0} got hugged {1} times and hugged others {3} times"
+			} else {
+				mention = m.Mentions[0]
 			}
-
-			mention = m.Mentions[0]
 
 			if mention == m.Author {
 				title = "**{0}** is hugging themselves"
