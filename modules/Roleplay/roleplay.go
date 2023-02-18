@@ -10,7 +10,7 @@ func Actions (s *discordgo.Session,  m *discordgo.MessageCreate, action string) 
 		// case "cuddle": 
 		case "hug":
 			title := "**{0}** is hugging **{1}**"
-			footer := "{0} got hugged {1} times and {2} hugged others {3} times"
+			footer := "{2} got hugged {1} times and {0} hugged others {3} times"
 			var mention *discordgo.User
 
 			if len(m.Mentions) <= 0 {
