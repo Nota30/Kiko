@@ -18,7 +18,7 @@ Check out our [contributing guidelines](https://github.com/Nota30/Kiko/blob/main
 Self-hosting kiko is currently not supported. If you still want to self-host kiko and are facing issues please use Kiko's discord server for any support. Please note that no one is obliged to help you out since self-hosting isn't supported.
 
 ## Maintainers
-* Nota#1588 (Lead Developer) ([Github](https://github.com/Nota30))
+* Nota#8888 (Lead Developer) ([Github](https://github.com/Nota30))
 
 ## Contributors
 * Skizzers#1980 ([Github](https://github.com/Tech13-08))
