@@ -3,9 +3,11 @@ module github.com/Nota30/Kiko
 go 1.19
 
 require (
+	github.com/PullRequestInc/go-gpt3 v1.1.11
 	github.com/bwmarrin/discordgo v0.27.0
 	github.com/joho/godotenv v1.4.0
 	github.com/jonas747/dshardmanager v0.0.0-20180911185241-9e4282faed43
+	github.com/redis/go-redis/v9 v9.0.2
 	gorm.io/driver/postgres v1.4.7
 	gorm.io/gorm v1.24.5
 )
@@ -19,7 +21,6 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/redis/go-redis/v9 v9.0.2 // indirect
 	golang.org/x/text v0.7.0 // indirect
 )
 
