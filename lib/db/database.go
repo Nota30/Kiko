@@ -1,6 +1,7 @@
 package database
 
 import (
+	"github.com/Nota30/Kiko/tools"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -11,7 +12,7 @@ var (
 )
 
 func Connect() {
-	dsn := "host=localhost user=kiko password=1234 dbname=kiko port=5432"
+	dsn := tools.GetEnv("DB_URL")
 	Db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
