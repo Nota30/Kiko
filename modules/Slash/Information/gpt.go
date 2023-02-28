@@ -13,6 +13,7 @@ import (
 
 	"github.com/PullRequestInc/go-gpt3"
 	"github.com/bwmarrin/discordgo"
+	"github.com/cenkalti/backoff/v4"
 )
 
 type record struct {
@@ -43,10 +44,7 @@ func GPT(s *discordgo.Session, m *discordgo.MessageCreate) {
 	//Convert the body to type string
 	client := gpt3.NewClient(tools.GetEnv("OpenAIApiKey"))
 
-	goCtx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
-
-	response, err := getResponse(goCtx, client, m.Content)
+	response, err := getResponse(client, m.Content)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -72,25 +70,29 @@ func GPT(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 }
 
-func getResponse(ctx context.Context, client gpt3.Client, question string) (response string, err error) {
+func getResponse(client gpt3.Client, question string) (response string, err error) {
 	sb := strings.Builder{}
-
-	err = client.CompletionStreamWithEngine(
-		ctx,
-		gpt3.TextDavinci003Engine,
-		gpt3.CompletionRequest{
-			Prompt: []string{
-				question,
+	chatgpt := func() error {
+		goCtx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+		defer cancel()
+		return client.CompletionStreamWithEngine(
+			goCtx,
+			gpt3.TextDavinci003Engine,
+			gpt3.CompletionRequest{
+				Prompt: []string{
+					question,
+				},
+				MaxTokens:   gpt3.IntPtr(3000),
+				Temperature: gpt3.Float32Ptr(0),
 			},
-			MaxTokens:   gpt3.IntPtr(3000),
-			Temperature: gpt3.Float32Ptr(0),
-		},
-		func(resp *gpt3.CompletionResponse) {
-			text := resp.Choices[0].Text
+			func(resp *gpt3.CompletionResponse) {
+				text := resp.Choices[0].Text
 
-			sb.WriteString(text)
-		},
-	)
+				sb.WriteString(text)
+			})
+	}
+	err = backoff.Retry(chatgpt, backoff.NewExponentialBackOff())
+	fmt.Println("Done")
 	if err != nil {
 		return "", err
 	}
@@ -102,16 +104,12 @@ func getResponse(ctx context.Context, client gpt3.Client, question string) (resp
 }
 
 func moderationTest(str string, pResp *profanityStruct) (bool, string) {
-	for _, word := range strings.Split(str, " ") {
-		if word[0] == '@' {
-			return false, "Whoa there buddy! Let's not do a ping okay?"
+	for _, record := range pResp.Records {
+		if strings.Contains(strings.ToLower(str), record.Word) {
+			return false, "Whoa there buddy! Let's not say bad words"
 		}
-		for _, record := range pResp.Records {
-			for _, part := range strings.Split(record.Word, " ") {
-				if strings.ToLower(word) == part {
-					return false, "Whoa there buddy! Let's not say bad words"
-				}
-			}
+		if strings.Contains(strings.ToLower(str), "@") {
+			return false, "Whoa there buddy! Let's not do a ping okay?"
 		}
 	}
 
