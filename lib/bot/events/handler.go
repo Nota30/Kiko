@@ -13,6 +13,7 @@ func EventHandler(s *discordgo.Session, evt interface{}) {
 		if ok {
 			MSGHandler(s, event)
 		}
+
 	case *discordgo.InteractionCreate:
 		fmt.Println("A Interaction happened!")
 	}
