@@ -14,6 +14,13 @@ func MSGHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.Bot {
 		return
 	}
+	channel, err := s.Channel(m.ChannelID)
+	if err != nil {
+		return
+	}
+	if channel.Type == 1 {
+		return
+	}
 
 	commands := []string{"bully", "cuddle", "hug", "kiss", "lick", "pat", "bonk", "yeet", "highfive", "handhold", "bite", "slap", "kill", "kick", "poke"}
 	prefix := "k."
@@ -31,7 +38,7 @@ func MSGHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	roleplay.Actions(s, m, cmd[0])
+	roleplay.Actions(s, m, cmd)
 }
 
 func getCommand(str string, n int) string {
