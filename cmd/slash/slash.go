@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/Nota30/Kiko/config"
 	"github.com/Nota30/Kiko/tools"
@@ -24,16 +23,7 @@ func main() {
 
 	logrus.Info("Registering Commands...")
 
-	commands := config.Commands
-	for i, v := range commands {
-		cmd, err := s.ApplicationCommandCreate(s.State.User.ID, "972433897319178340", v)
-
-		if err != nil {
-			logrus.Panicf("Cannot create '%v' command: %v", v.Name, err)
-		}
-		
-		logrus.Info("Added Command: "+ cmd.Name + " [" + strconv.Itoa(i) + "]")
-	}
+	tools.RegisterCommands(s, config.DevGuild)
 
 	defer s.Close()
 }

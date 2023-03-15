@@ -3,11 +3,10 @@ package events
 import (
 	"strings"
 
-	roleplay "github.com/Nota30/Kiko/modules/Roleplay"
 	"github.com/bwmarrin/discordgo"
 )
 
-func MSGHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
+func MSGCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
@@ -22,7 +21,7 @@ func MSGHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	commands := []string{"bully", "cuddle", "hug", "kiss", "lick", "pat", "bonk", "yeet", "highfive", "handhold", "bite", "slap", "kill", "kick", "poke"}
+	commands := []string{"help"}
 	prefix := "k."
 
 	hasPrefix := strings.HasPrefix(m.Content, prefix)
@@ -37,8 +36,6 @@ func MSGHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if !exists {
 		return
 	}
-
-	roleplay.Actions(s, m, cmd)
 }
 
 func getCommand(str string, n int) string {
