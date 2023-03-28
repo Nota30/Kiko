@@ -1,0 +1,61 @@
+base:
+  - warrior
+  - mage
+  - archer
+  - assassin
+  - martial artist
+
+warrior:
+  "1": mercenary
+  "2": soldier
+  "3": knight
+  "4":
+    - dark knight
+    - holy knight
+  "5":
+    - death knight
+    - paladin
+
+mage:
+  "1": wizard
+  "2": sorcerer
+  "3": summoner
+  "4":
+    - shaman
+    - sage
+  "5":
+    - necromancer
+    - archmage
+
+archer:
+  "1": fowler
+  "2": hunter
+  "3": arbalist
+  "4":
+    - marksman
+    - ranger
+  "5":
+    - sniper
+    - sharpshooter
+
+assassin:
+  "1": thief
+  "2": myrmidon
+  "3": hitman
+  "4":
+    - rogue
+    - executioner
+  "5":
+    - slayer
+    - reaper
+
+martial artist:
+  "1": outlaw
+  "2": barbarian
+  "3": striker
+  "4":
+    - berserker
+    - brawler
+  "5":
+    - warlord
+    - grandmaster

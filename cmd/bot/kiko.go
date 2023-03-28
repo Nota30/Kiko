@@ -9,7 +9,6 @@ import (
 	"github.com/Nota30/Kiko/lib/bot"
 	"github.com/Nota30/Kiko/lib/cache"
 	database "github.com/Nota30/Kiko/lib/db"
-	"github.com/Nota30/Kiko/lib/slash"
 )
 
 func main() {
@@ -30,6 +29,6 @@ func main() {
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc
 
-	bot.Sharder.StopAll()
+	bot.Dg.Close()
 	defer cache.Client.Close()
 }

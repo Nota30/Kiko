@@ -9,7 +9,7 @@ func EventHandler(s *discordgo.Session, evt interface{}) {
 	case *discordgo.MessageCreate:
 		event, ok := evt.(*discordgo.MessageCreate)
 		if ok {
-			MSGHandler(s, event)
+			MSGCreateHandler(s, event)
 		}
 
 	case *discordgo.InteractionCreate:
