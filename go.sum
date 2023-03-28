@@ -1,3 +1,5 @@
+github.com/KirillMironov/openai v0.2.0 h1:kt+JRsC6jEai/yQR70EMc2OyPQ2A0hOxH4AAG3NV5QE=
+github.com/KirillMironov/openai v0.2.0/go.mod h1:BSCjEQQrMivC+s+bYM4RlSMyC6QdqxP82n5K3Lkwb4o=
 github.com/PullRequestInc/go-gpt3 v1.1.11 h1:kZtCbAnUEKfUS50a+0TR2p9rJtz4t57THf5cxN3Ye/o=
 github.com/PullRequestInc/go-gpt3 v1.1.11/go.mod h1:F9yzAy070LhkqHS2154/IH0HVj5xq5g83gLTj7xzyfw=
 github.com/bsm/ginkgo/v2 v2.5.0 h1:aOAnND1T40wEdAtkGSkvSICWeQ8L3UASX7YVCqQx+eQ=
