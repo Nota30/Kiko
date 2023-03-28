@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"os"
 	"os/signal"
 	"syscall"
@@ -8,9 +9,19 @@ import (
 	"github.com/Nota30/Kiko/lib/bot"
 	"github.com/Nota30/Kiko/lib/cache"
 	database "github.com/Nota30/Kiko/lib/db"
+	"github.com/Nota30/Kiko/lib/slash"
 )
 
 func main() {
+
+	slashPtr := flag.Bool("s", false, "Flag to indicate whether to update the slash commands or not")
+
+	flag.Parse()
+
+	if *slashPtr {
+		slash.UpdateSlashCMDS()
+	}
+
 	cache.Connect()
 	database.Connect()
 	bot.DiscordConnect()
