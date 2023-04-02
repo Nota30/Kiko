@@ -8,7 +8,7 @@ import (
 )
 
 func GetEnv(key string) string {
-	err := godotenv.Load("C:/Users/falak/Downloads/Repos/Kiko/.env")
+	err := godotenv.Load("../../.env")
 
 	if err != nil {
 		log.Fatalf("Error loading .env file")

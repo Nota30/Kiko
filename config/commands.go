@@ -1,6 +1,8 @@
 package config
 
-import "github.com/bwmarrin/discordgo"
+import (
+	"github.com/bwmarrin/discordgo"
+)
 
 var dmPermission = false
 
@@ -93,12 +95,22 @@ var Commands = []*discordgo.ApplicationCommand{
 				Name:        "class",
 				Description: "Pick your character class",
 				Required:    true,
-				Choices: []*discordgo.ApplicationCommandOptionChoice{
-					{
-						Name:  "Warrior",
-						Value: "Mercenary",
-					},
-				},
+				Choices: func() []*discordgo.ApplicationCommandOptionChoice {
+					SetupClasses()
+					choices := []*discordgo.ApplicationCommandOptionChoice{}
+
+					for tableName := range Data {
+						for _, value := range Data[tableName]["1"] {
+							choice := &discordgo.ApplicationCommandOptionChoice{
+								Name:  tableName,
+								Value: value,
+							}
+							choices = append(choices, choice)
+						}
+					}
+
+					return choices
+				}(),
 			},
 		},
 	},

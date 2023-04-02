@@ -6,9 +6,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/Nota30/Kiko/lib/bot"
-	"github.com/Nota30/Kiko/lib/cache"
-	database "github.com/Nota30/Kiko/lib/db"
+	"github.com/Nota30/Kiko/bot"
+	"github.com/Nota30/Kiko/cache"
+	database "github.com/Nota30/Kiko/db"
+	"github.com/Nota30/Kiko/lib/slash"
 )
 
 func main() {
