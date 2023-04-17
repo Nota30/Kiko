@@ -39,11 +39,16 @@ func DiscordConnect() {
 	}
 
 	logrus.Info("Connected to Discord!")
-	logrus.Info("Registering Slash Commands...")
 
-	if tools.GetEnv("env") == "development" {
+	logrus.Info("Loading Configs....")
+	config.LoadConfigs()
+
+	env := tools.GetEnv("env")
+	if env == "development" {
+		logrus.Info("Registering Slash Commands in dev mode...")
 		tools.RegisterCommands(Dg, config.DevGuild)
-	} else {
+	} else if env == "production" {
+		logrus.Info("Registering Slash Commands in prod mode...")
 		tools.RegisterCommands(Dg, "")
 	}
 }

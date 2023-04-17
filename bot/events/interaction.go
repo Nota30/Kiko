@@ -13,8 +13,6 @@ func InteractionHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	switch i.ApplicationCommandData().Name {
 	case "ping":
 		modules.Ping(s, i)
-	case "interactionroles":
-		modules.InteractionRoles(s, i)
 	case "register":
 		modules.Register(s, i)
 	}

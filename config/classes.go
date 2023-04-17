@@ -15,7 +15,7 @@ func SetupClasses() {
 		panic(err)
 	}
 
-	tomlData, err := os.ReadFile(filepath.Join(cwd, "../../config/store/classes.toml"))
+	tomlData, err := os.ReadFile(filepath.Join(cwd, "/config/store/classes.toml"))
 	if err != nil {
 		panic(err)
 	}

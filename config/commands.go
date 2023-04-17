@@ -21,8 +21,8 @@ var Commands = []*discordgo.ApplicationCommand{
 				Description: "Pick your character class",
 				Required:    true,
 				Choices: func() []*discordgo.ApplicationCommandOptionChoice {
-					SetupClasses()
 					choices := []*discordgo.ApplicationCommandOptionChoice{}
+					SetupClasses()
 
 					for tableName := range Data {
 						for _, value := range Data[tableName]["1"] {
