@@ -2,12 +2,10 @@ package database
 
 import "time"
 
-type RoleplayCount struct {
+type User struct {
 	ID 			int64
 	DiscordId	string
-	Type		string
-	Sent		int `gorm:"default:0"`
-  	Received	int `gorm:"default:0"`
+	Class		string
 	CreatedAt   time.Time
   	UpdatedAt   time.Time
 }
