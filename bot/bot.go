@@ -2,7 +2,6 @@ package bot
 
 import (
 	"github.com/Nota30/Kiko/bot/events"
-	"github.com/Nota30/Kiko/config"
 	"github.com/Nota30/Kiko/tools"
 	"github.com/bwmarrin/discordgo"
 	"github.com/sirupsen/logrus"
@@ -39,8 +38,8 @@ func DiscordConnect() {
 	}
 
 	logrus.Info("Connected to Discord!")
-	logrus.Info("Registering Slash Commands...")
-	tools.RegisterCommands(Dg, config.DevGuild)
+	// logrus.Info("Registering Slash Commands...")
+	// tools.RegisterCommands(Dg, config.DevGuild)
 }
 
 // var (
