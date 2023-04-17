@@ -1,21 +1,23 @@
 package events
 
-import (
-	"github.com/bwmarrin/discordgo"
-)
+// -> Maybe not handle all events in one handler?
 
-func EventHandler(s *discordgo.Session, evt interface{}) {
-	switch evt.(type) {
-	case *discordgo.MessageCreate:
-		event, ok := evt.(*discordgo.MessageCreate)
-		if ok {
-			MSGCreateHandler(s, event)
-		}
+// import (
+// 	"github.com/bwmarrin/discordgo"
+// )
 
-	case *discordgo.InteractionCreate:
-		event, ok := evt.(*discordgo.InteractionCreate)
-		if ok {
-			InteractionHandler(s, event)
-		}
-	}
-}
+// func EventHandler(s *discordgo.Session, evt interface{}) {
+// 	switch evt.(type) {
+// 	case *discordgo.MessageCreate:
+// 		event, ok := evt.(*discordgo.MessageCreate)
+// 		if ok {
+// 			MSGCreateHandler(s, event)
+// 		}
+
+// 	case *discordgo.InteractionCreate:
+// 		event, ok := evt.(*discordgo.InteractionCreate)
+// 		if ok {
+// 			InteractionHandler(s, event)
+// 		}
+// 	}
+// }

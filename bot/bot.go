@@ -20,8 +20,9 @@ func DiscordConnect() {
 		logrus.Error("There was an error creating the discord session,", err)
 		return
 	}
-
-	Dg.AddHandler(events.EventHandler)
+	
+	Dg.AddHandler(events.MSGCreateHandler)
+	Dg.AddHandler(events.InteractionHandler)
 
 	Dg.Identify.Intents |= discordgo.IntentMessageContent
 	Dg.Identify.Intents |= discordgo.IntentsGuildMessages
