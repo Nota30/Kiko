@@ -1,6 +1,11 @@
 <div align='center'>
-  <h2>Kiko</h2>
+  <img src="https://cdn.discordapp.com/attachments/985862565232001045/1097835302019678208/image_2.png" alt="MarineGEO circle logo" style="height: 120px; width:120px;"/>
+  <h2>KIKO</h2>
 </div>
+
+# About
+
+A fully fledged RPG game inside discord. Still under development and any all contributions and suggestions are welcome!
 
 ## Invite Kiko
 
