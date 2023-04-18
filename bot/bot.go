@@ -23,6 +23,7 @@ func DiscordConnect() {
 	
 	Dg.AddHandler(events.MSGCreateHandler)
 	Dg.AddHandler(events.InteractionHandler)
+	Dg.AddHandler(events.ComponentHandler)
 
 	Dg.Identify.Intents |= discordgo.IntentMessageContent
 	Dg.Identify.Intents |= discordgo.IntentsGuildMessages

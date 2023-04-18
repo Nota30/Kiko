@@ -2,6 +2,7 @@ package modules
 
 import (
 	"time"
+	"unicode"
 
 	"github.com/Nota30/Kiko/config"
 	"github.com/bwmarrin/discordgo"
@@ -12,9 +13,10 @@ func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	choices := []discordgo.SelectMenuOption{}
 
 	for tableName := range classes {
+		r := []rune(tableName)
 		choice := discordgo.SelectMenuOption{
-			Label: tableName,
-			Value: classes[tableName]["1"][0],
+			Label: string(append([]rune{unicode.ToUpper(r[0])}, r[1:]...)),
+			Value: tableName,
 			Emoji: discordgo.ComponentEmoji{
 				Name: classes[tableName]["1"][1],
 			},
@@ -81,4 +83,33 @@ func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	})
 }
 
-func RegisterSelector() {}
+func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	// isExpired := time.Now().Sub(tools.ConvertToTime(i.Message.ID))
+	// logrus.Info(isExpired.Minutes())
+
+	k := *config.Classes
+
+	embed := &discordgo.MessageEmbed{
+		Author: &discordgo.MessageEmbedAuthor{
+			Name: "Class Selection",
+			IconURL: i.Member.AvatarURL(""),
+		},
+		Color: config.Color.Default,
+		Description: 
+			"The `" + i.MessageComponentData().Values[0] + "` class has been selected. " +
+			"You have now been given the base sub-class of **`" + k[i.MessageComponentData().Values[0]]["1"][0] + "`.**\n" +
+			"I hope you have fun and enjoy your time on Kiko!",
+		Timestamp: time.Now().Format(time.RFC3339),
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: "Kiko's Epic World",
+		},
+		
+	}
+
+	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Embeds: []*discordgo.MessageEmbed{embed},
+		},
+	})
+}
