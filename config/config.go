@@ -11,5 +11,4 @@ type color struct {
 
 var Color color = color{Default: 0xf62dcd, Error: 0xf32917}
 var DevGuild = "972433897319178340"
-
-var Classes = Data
+var Classes = &Data

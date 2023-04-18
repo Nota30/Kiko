@@ -10,6 +10,10 @@ func InteractionHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		return
 	}
 
+	if i.Data.Type() != discordgo.InteractionApplicationCommand {
+		return
+	}
+
 	switch i.ApplicationCommandData().Name {
 	case "ping":
 		modules.Ping(s, i)
