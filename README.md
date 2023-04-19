@@ -5,7 +5,7 @@
 
 # About
 
-A fully fledged RPG game inside discord. Still under development and any all contributions and suggestions are welcome!
+A fully fledged RPG game inside discord. Still under development and any all contributions and suggestions are welcome! (Also I'm a newb in golang so pls don't insult my code too muchh)
 
 ## Invite Kiko
 
