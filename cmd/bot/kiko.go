@@ -13,14 +13,13 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
+	err := godotenv.Load("../../.env")
 
 	if err != nil {
 		logrus.Fatalf("Error loading .env file")
 	} else {
 		logrus.Info("Loaded the environment variables!!")
 	}
-
 
 	cache.Connect()
 	database.Connect()
