@@ -24,7 +24,7 @@ type Item struct {
 	}
 }
 
-var SwordsData map[string]map[string]Item
+var SwordsData, StaffsData, GauntletsData, DaggersData, BowsData map[string]map[string]Item
 
 func SetupWeapons() {
 
@@ -38,4 +38,49 @@ func SetupWeapons() {
 	if err != nil {
 		panic(err)
 	}
+
+	tomlData, err = os.ReadFile("../../config/store/weapons/staffs.toml")
+	if err != nil {
+		panic(err)
+	}
+
+	// Parse TOML into a map[string]map[string][]string
+	err = toml.Unmarshal(tomlData, &StaffsData)
+	if err != nil {
+		panic(err)
+	}
+
+	tomlData, err = os.ReadFile("../../config/store/weapons/gauntlets.toml")
+	if err != nil {
+		panic(err)
+	}
+
+	// Parse TOML into a map[string]map[string][]string
+	err = toml.Unmarshal(tomlData, &GauntletsData)
+	if err != nil {
+		panic(err)
+	}
+
+	tomlData, err = os.ReadFile("../../config/store/weapons/daggers.toml")
+	if err != nil {
+		panic(err)
+	}
+
+	// Parse TOML into a map[string]map[string][]string
+	err = toml.Unmarshal(tomlData, &DaggersData)
+	if err != nil {
+		panic(err)
+	}
+
+	tomlData, err = os.ReadFile("../../config/store/weapons/bows.toml")
+	if err != nil {
+		panic(err)
+	}
+
+	// Parse TOML into a map[string]map[string][]string
+	err = toml.Unmarshal(tomlData, &BowsData)
+	if err != nil {
+		panic(err)
+	}
+
 }

@@ -89,7 +89,21 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	// logrus.Info(isExpired.Minutes())
 
 	k := *config.Classes
-	swords := *config.Swords
+	weapon := ""
+	subclass := k[i.MessageComponentData().Values[0]]["1"][0]
+
+	switch i.MessageComponentData().Values[0] {
+	case "warrior":
+		weapon = (*config.Swords)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
+	case "mage":
+		weapon = (*config.Staffs)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
+	case "martial artist":
+		weapon = (*config.Gauntlets)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
+	case "assassin":
+		weapon = (*config.Daggers)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
+	case "archer":
+		weapon = (*config.Bows)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
+	}
 
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{
@@ -98,8 +112,8 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		},
 		Color: config.Color.Default,
 		Description: "The `" + i.MessageComponentData().Values[0] + "` class has been selected. " +
-			"You have now been given the base sub-class of **`" + k[i.MessageComponentData().Values[0]]["1"][0] + "`.**\n" +
-			"Your randomly selected weapon is **`" + swords["common"][strconv.Itoa(rand.Intn(1)+1)].Name + "`**\n" +
+			"You have now been given the base sub-class of **`" + subclass + "`.**\n" +
+			"Your randomly selected weapon is **`" + weapon + "`**\n" +
 			"I hope you have fun and enjoy your time on Kiko!",
 		Timestamp: time.Now().Format(time.RFC3339),
 		Footer: &discordgo.MessageEmbedFooter{
