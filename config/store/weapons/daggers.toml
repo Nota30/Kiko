@@ -1,0 +1,18 @@
+["common"]
+1 = {
+    name = "dagger name",
+    price = 10,
+    description = "dagger description",
+    droppable = true,
+    inshop = true,
+    tradable = true,
+    stats = {
+        attack = 4,
+        speed = 2,
+        defence = 3,
+        health = 1,
+        stamina = 0,
+        iq = 0,
+        luck = 0
+    }
+}
