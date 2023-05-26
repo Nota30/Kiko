@@ -41,9 +41,6 @@ func DiscordConnect() {
 
 	logrus.Info("Connected to Discord!")
 
-	logrus.Info("Loading Configs....")
-	config.LoadConfigs()
-
 	env := tools.GetEnv("env")
 	if env == "development" {
 		logrus.Info("Registering Slash Commands in dev mode...")

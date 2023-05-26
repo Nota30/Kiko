@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/pelletier/go-toml"
 )
@@ -27,8 +28,12 @@ type Item struct {
 var SwordsData, StaffsData, GauntletsData, DaggersData, BowsData map[string]map[string]Item
 
 func SetupWeapons() {
+	cwd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
 
-	tomlData, err := os.ReadFile("../../config/store/weapons/swords.toml")
+	tomlData, err := os.ReadFile(filepath.Join(cwd, "/config/store/weapons/swords.toml"))
 	if err != nil {
 		panic(err)
 	}
@@ -39,7 +44,7 @@ func SetupWeapons() {
 		panic(err)
 	}
 
-	tomlData, err = os.ReadFile("../../config/store/weapons/staffs.toml")
+	tomlData, err = os.ReadFile(filepath.Join(cwd, "/config/store/weapons/staffs.toml"))
 	if err != nil {
 		panic(err)
 	}
@@ -50,7 +55,7 @@ func SetupWeapons() {
 		panic(err)
 	}
 
-	tomlData, err = os.ReadFile("../../config/store/weapons/gauntlets.toml")
+	tomlData, err = os.ReadFile(filepath.Join(cwd, "/config/store/weapons/gauntlets.toml"))
 	if err != nil {
 		panic(err)
 	}
@@ -61,7 +66,7 @@ func SetupWeapons() {
 		panic(err)
 	}
 
-	tomlData, err = os.ReadFile("../../config/store/weapons/daggers.toml")
+	tomlData, err = os.ReadFile(filepath.Join(cwd, "/config/store/weapons/daggers.toml"))
 	if err != nil {
 		panic(err)
 	}
@@ -72,7 +77,7 @@ func SetupWeapons() {
 		panic(err)
 	}
 
-	tomlData, err = os.ReadFile("../../config/store/weapons/bows.toml")
+	tomlData, err = os.ReadFile(filepath.Join(cwd, "/config/store/weapons/bows.toml"))
 	if err != nil {
 		panic(err)
 	}

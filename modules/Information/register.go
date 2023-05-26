@@ -1,26 +1,24 @@
 package modules
 
 import (
-	"math/rand"
-	"strconv"
 	"time"
-	"unicode"
 
 	"github.com/Nota30/Kiko/config"
+	"github.com/Nota30/Kiko/tools"
+	"github.com/Nota30/Kiko/types"
 	"github.com/bwmarrin/discordgo"
 )
 
 func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	classes := *config.Classes
+	classes := config.Classes
 	choices := []discordgo.SelectMenuOption{}
 
-	for tableName := range classes {
-		r := []rune(tableName)
+	for class, value := range classes {
 		choice := discordgo.SelectMenuOption{
-			Label: string(append([]rune{unicode.ToUpper(r[0])}, r[1:]...)),
-			Value: tableName,
+			Label: class,
+			Value: class,
 			Emoji: discordgo.ComponentEmoji{
-				Name: classes[tableName]["1"][1],
+				Name: value.Emote,
 			},
 			Default: false,
 		}
@@ -64,45 +62,39 @@ func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			},
 		},
 	})
-
-	// Disable the selector after 3 minutes to prevent this event from being sent
-	time.AfterFunc(3*time.Minute, func() {
-		s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
-			Components: &[]discordgo.MessageComponent{
-				discordgo.ActionsRow{
-					Components: []discordgo.MessageComponent{
-						discordgo.SelectMenu{
-							CustomID:    "select_class",
-							Placeholder: "Choose your class 👇",
-							Disabled:    true,
-							Options:     choices,
-						},
-					},
-				},
-			},
-		})
-	})
 }
 
 func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	// isExpired := time.Now().Sub(tools.ConvertToTime(i.Message.ID))
-	// logrus.Info(isExpired.Minutes())
+	isExpired := time.Since(tools.ConvertToTime(i.Message.ID))
 
-	k := *config.Classes
-	weapon := ""
-	subclass := k[i.MessageComponentData().Values[0]]["1"][0]
+	choices := []discordgo.SelectMenuOption{}
+	choice := discordgo.SelectMenuOption{
+		Label: "Disabled",
+		Value: "disabled",
+		Default: false,
+	}
+	choices = append(choices, choice)
 
-	switch i.MessageComponentData().Values[0] {
-	case "warrior":
-		weapon = (*config.Swords)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
-	case "mage":
-		weapon = (*config.Staffs)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
-	case "martial artist":
-		weapon = (*config.Gauntlets)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
-	case "assassin":
-		weapon = (*config.Daggers)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
-	case "archer":
-		weapon = (*config.Bows)["common"][strconv.Itoa(rand.Intn(1)+1)].Name
+	if isExpired.Minutes() > 3 {
+		return
+	}
+
+	var weapons types.Weapons = config.Weapons
+	var weapon types.Weapon
+	class := i.MessageComponentData().Values[0]
+	subclass := config.Classes[class].AdvanceClasses.One.Name
+
+	switch class {
+	case "Warrior":
+		weapon = findWeapon("Common Sword", weapons.Swords.Weapons)
+	case "Mage":
+		weapon = findWeapon("Common Staff", weapons.Staffs.Weapons)
+	case "Martial Artist":
+		weapon = findWeapon("Common Gauntlet", weapons.Gauntlets.Weapons)
+	case "Assassin":
+		weapon = findWeapon("Common Dagger", weapons.Daggers.Weapons)
+	case "Archer":
+		weapon = findWeapon("Common Bow", weapons.Bows.Weapons)
 	}
 
 	embed := &discordgo.MessageEmbed{
@@ -113,7 +105,7 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		Color: config.Color.Default,
 		Description: "The `" + i.MessageComponentData().Values[0] + "` class has been selected. " +
 			"You have now been given the base sub-class of **`" + subclass + "`.**\n" +
-			"Your randomly selected weapon is **`" + weapon + "`**\n" +
+			"Your randomly selected weapon is **`" + weapon.Name + "`**\n" +
 			"I hope you have fun and enjoy your time on Kiko!",
 		Timestamp: time.Now().Format(time.RFC3339),
 		Footer: &discordgo.MessageEmbedFooter{
@@ -127,4 +119,32 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			Embeds: []*discordgo.MessageEmbed{embed},
 		},
 	})
+
+	s.ChannelMessageEditComplex(&discordgo.MessageEdit{
+		ID: i.Message.ID,
+		Channel: i.Message.ChannelID,
+		Components: []discordgo.MessageComponent{
+			discordgo.ActionsRow{
+				Components: []discordgo.MessageComponent{
+					discordgo.SelectMenu{
+						CustomID:    "select_class",
+						Placeholder: "Choose your class 👇",
+						Disabled:    true,
+						Options:     choices,
+					},
+				},
+			},
+		},
+	})
+}
+
+
+func findWeapon(weapon string, array []types.Weapon) types.Weapon {
+	for i := range array {
+		if array[i].Name == weapon {
+			return array[i]
+		}
+	}
+
+	return array[0]
 }
