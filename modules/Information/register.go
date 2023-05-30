@@ -67,17 +67,16 @@ func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	isExpired := time.Since(tools.ConvertToTime(i.Message.ID))
-
-	choices := []discordgo.SelectMenuOption{}
-	choice := discordgo.SelectMenuOption{
-		Label: "Disabled",
-		Value: "disabled",
-		Default: false,
-	}
-	choices = append(choices, choice)
-
 	if isExpired.Minutes() > 3 {
 		return
+	}
+
+	choices := []discordgo.SelectMenuOption{
+		{
+			Label: "Disabled",
+			Value: "disabled",
+			Default: false,
+		},
 	}
 
 	var weapon types.Weapon
@@ -114,23 +113,18 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	}
 
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Type: discordgo.InteractionResponseUpdateMessage,
 		Data: &discordgo.InteractionResponseData{
 			Embeds: []*discordgo.MessageEmbed{embed},
-		},
-	})
-
-	s.ChannelMessageEditComplex(&discordgo.MessageEdit{
-		ID: i.Message.ID,
-		Channel: i.Message.ChannelID,
-		Components: []discordgo.MessageComponent{
-			discordgo.ActionsRow{
-				Components: []discordgo.MessageComponent{
-					discordgo.SelectMenu{
-						CustomID:    "select_class",
-						Placeholder: "Choose your class 👇",
-						Disabled:    true,
-						Options:     choices,
+			Components: []discordgo.MessageComponent{
+				discordgo.ActionsRow{
+					Components: []discordgo.MessageComponent{
+						discordgo.SelectMenu{
+							CustomID: "select_class",
+							Placeholder: "Choose your class 👇",
+							Disabled: true,
+							Options: choices,
+						},
 					},
 				},
 			},
