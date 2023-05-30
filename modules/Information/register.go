@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/Nota30/Kiko/config"
+	"github.com/Nota30/Kiko/config/store/weapons"
 	"github.com/Nota30/Kiko/tools"
 	"github.com/Nota30/Kiko/types"
 	"github.com/bwmarrin/discordgo"
@@ -79,22 +80,21 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		return
 	}
 
-	var weapons types.Weapons = config.Weapons
 	var weapon types.Weapon
 	class := i.MessageComponentData().Values[0]
 	subclass := config.Classes[class].AdvanceClasses.One.Name
 
 	switch class {
 	case "Warrior":
-		weapon = findWeapon("Common Sword", weapons.Swords.Weapons)
+		weapon = weapons.Common_Sword
 	case "Mage":
-		weapon = findWeapon("Common Staff", weapons.Staffs.Weapons)
+		weapon = weapons.Common_Staff
 	case "Martial Artist":
-		weapon = findWeapon("Common Gauntlet", weapons.Gauntlets.Weapons)
+		weapon = weapons.Common_Gauntlet
 	case "Assassin":
-		weapon = findWeapon("Common Dagger", weapons.Daggers.Weapons)
+		weapon = weapons.Common_Dagger
 	case "Archer":
-		weapon = findWeapon("Common Bow", weapons.Bows.Weapons)
+		weapon = weapons.Common_Bow
 	}
 
 	embed := &discordgo.MessageEmbed{
@@ -136,15 +136,4 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			},
 		},
 	})
-}
-
-
-func findWeapon(weapon string, array []types.Weapon) types.Weapon {
-	for i := range array {
-		if array[i].Name == weapon {
-			return array[i]
-		}
-	}
-
-	return array[0]
 }
