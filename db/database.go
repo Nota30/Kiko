@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	Db *gorm.DB
+	Db  *gorm.DB
 	err error
 )
 
@@ -16,14 +16,14 @@ func Connect() {
 	Db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-    	panic("failed to connect database")
-  	}
+		panic("failed to connect database")
+	}
 
 	psqlDB, err := Db.DB()
 	if err != nil {
-    	panic("failed to connect database")
-  	}
-	
+		panic("failed to connect database")
+	}
+
 	psqlDB.SetMaxIdleConns(5)
 	psqlDB.SetMaxOpenConns(0)
 }

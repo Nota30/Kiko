@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load(".env")
+	err := godotenv.Load("../../.env")
 
 	if err != nil {
 		logrus.Fatalf("Error loading .env file")

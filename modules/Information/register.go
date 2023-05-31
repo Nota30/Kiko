@@ -5,57 +5,77 @@ import (
 
 	"github.com/Nota30/Kiko/config"
 	"github.com/Nota30/Kiko/config/store/weapons"
+	database "github.com/Nota30/Kiko/db"
 	"github.com/Nota30/Kiko/tools"
 	"github.com/Nota30/Kiko/types"
 	"github.com/bwmarrin/discordgo"
 )
 
 func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
+
+	var user database.User
+	var embed discordgo.MessageEmbed
+	var components []discordgo.MessageComponent
 	classes := config.Classes
 	choices := []discordgo.SelectMenuOption{}
 
-	for class, value := range classes {
-		choice := discordgo.SelectMenuOption{
-			Label: class,
-			Value: class,
-			Emoji: discordgo.ComponentEmoji{
-				Name: value.Emote,
-			},
-			Default: false,
-		}
-		choices = append(choices, choice)
-	}
+	result := database.Db.Where("discord_id = ?", i.Member.User.ID).First(&user)
 
-	embed := &discordgo.MessageEmbed{
-		Color: config.Color.Default,
-		Author: &discordgo.MessageEmbedAuthor{
-			Name:    "Kiko Registration",
-			IconURL: i.Member.AvatarURL(""),
-		},
-		Description: "Welcome to Kiko! Here you will register into the game and choose a class." +
-			"It is also recommended to check out the `/tutorial` command before you proceed with the game.\n" +
-			"**Please note that you cannot change classes further on in the game.**\n\n" +
-			"There are 5 classes, which are:\n ```md\n# Warrior\n# Mage\n# Archer\n# Assassin\n# Martial Artist```\n" +
-			"Each class has several sub-classes which you will evolve into as you further progress into the game. " +
-			"You will start out with the base class and recieve the default weapon for that class. " +
-			"For more information on classes please check `/classes`.\n",
+	if result.Error == nil {
+		embed = discordgo.MessageEmbed{
+			Color: config.Color.Default,
+			Author: &discordgo.MessageEmbedAuthor{
+				Name:    "Kiko Registration",
+				IconURL: i.Member.AvatarURL(""),
+			},
+			Description: "We love your enthusiasm for Kiko, however it seems you already have an active account!",
+		}
+		components = nil
+	} else {
+		user = database.User{DiscordId: i.Member.User.ID, Coins: 0}
+		result = database.Db.Create(&user)
+		embed = discordgo.MessageEmbed{
+			Color: config.Color.Default,
+			Author: &discordgo.MessageEmbedAuthor{
+				Name:    "Kiko Registration",
+				IconURL: i.Member.AvatarURL(""),
+			},
+			Description: "Welcome to Kiko! Here you will register into the game and choose a class." +
+				"It is also recommended to check out the `/tutorial` command before you proceed with the game.\n" +
+				"**Please note that you cannot change classes further on in the game.**\n\n" +
+				"There are 5 classes, which are:\n ```md\n# Warrior\n# Mage\n# Archer\n# Assassin\n# Martial Artist```\n" +
+				"Each class has several sub-classes which you will evolve into as you further progress into the game. " +
+				"You will start out with the base class and recieve the default weapon for that class. " +
+				"For more information on classes please check `/classes`.\n",
+		}
+		if result.Error != nil {
+			embed.Description = "There was a problem with registering your account, please try again later."
+		}
+		for class, value := range classes {
+			choice := discordgo.SelectMenuOption{
+				Label: class,
+				Value: class,
+				Emoji: discordgo.ComponentEmoji{
+					Name: value.Emote,
+				},
+				Default: false,
+			}
+			choices = append(choices, choice)
+		}
+
+		components = []discordgo.MessageComponent{
+			discordgo.SelectMenu{
+				CustomID:    "select_class",
+				Placeholder: "Choose your class 👇",
+				Options:     choices,
+			}}
 	}
 
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
-			Embeds: []*discordgo.MessageEmbed{embed},
-			Components: []discordgo.MessageComponent{
-				discordgo.ActionsRow{
-					Components: []discordgo.MessageComponent{
-						discordgo.SelectMenu{
-							CustomID:    "select_class",
-							Placeholder: "Choose your class 👇",
-							Options:     choices,
-						},
-					},
-				},
-			},
+			Embeds:     []*discordgo.MessageEmbed{&embed},
+			Components: components,
 		},
 	})
 }
@@ -83,7 +103,7 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		weapon = weapons.Common_Bow
 	}
 
-	embed := &discordgo.MessageEmbed{
+	embed := discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{
 			Name:    "Class Selection",
 			IconURL: i.Member.AvatarURL(""),
@@ -98,7 +118,7 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseUpdateMessage,
 		Data: &discordgo.InteractionResponseData{
-			Embeds: []*discordgo.MessageEmbed{embed},
+			Embeds:     []*discordgo.MessageEmbed{&embed},
 			Components: []discordgo.MessageComponent{},
 		},
 	})
