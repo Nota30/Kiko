@@ -1,6 +1,7 @@
 package modules
 
 import (
+	"errors"
 	"time"
 
 	"github.com/Nota30/Kiko/config"
@@ -9,10 +10,10 @@ import (
 	"github.com/Nota30/Kiko/tools"
 	"github.com/Nota30/Kiko/types"
 	"github.com/bwmarrin/discordgo"
+	"gorm.io/gorm"
 )
 
 func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
-
 	var user database.User
 	var embed discordgo.MessageEmbed
 	var components []discordgo.MessageComponent
@@ -20,20 +21,8 @@ func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	choices := []discordgo.SelectMenuOption{}
 
 	result := database.Db.Where("discord_id = ?", i.Member.User.ID).First(&user)
-
-	if result.Error == nil {
-		embed = discordgo.MessageEmbed{
-			Color: config.Color.Default,
-			Author: &discordgo.MessageEmbedAuthor{
-				Name:    "Kiko Registration",
-				IconURL: i.Member.AvatarURL(""),
-			},
-			Description: "We love your enthusiasm for Kiko, however it seems you already have an active account!",
-		}
-		components = nil
-	} else {
-		user = database.User{DiscordId: i.Member.User.ID, Coins: 0}
-		result = database.Db.Create(&user)
+	
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		embed = discordgo.MessageEmbed{
 			Color: config.Color.Default,
 			Author: &discordgo.MessageEmbedAuthor{
@@ -48,9 +37,7 @@ func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				"You will start out with the base class and recieve the default weapon for that class. " +
 				"For more information on classes please check `/classes`.\n",
 		}
-		if result.Error != nil {
-			embed.Description = "There was a problem with registering your account, please try again later."
-		}
+
 		for class, value := range classes {
 			choice := discordgo.SelectMenuOption{
 				Label: class,
@@ -64,11 +51,25 @@ func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		}
 
 		components = []discordgo.MessageComponent{
-			discordgo.SelectMenu{
-				CustomID:    "select_class",
-				Placeholder: "Choose your class 👇",
-				Options:     choices,
+			discordgo.ActionsRow{
+				Components: []discordgo.MessageComponent{
+					discordgo.SelectMenu{
+						CustomID: "select_class",
+						Placeholder: "Choose your class 👇",
+						Options:     choices,
+					},
+				},
 			}}
+	} else {
+		embed = discordgo.MessageEmbed{
+			Color: config.Color.Default,
+			Author: &discordgo.MessageEmbedAuthor{
+				Name:    "Kiko Registration",
+				IconURL: i.Member.AvatarURL(""),
+			},
+			Description: "We love your enthusiasm for Kiko, however it seems you already have an active account!",
+		}
+		components = nil
 	}
 
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
@@ -102,7 +103,7 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	case "Archer":
 		weapon = weapons.Common_Bow
 	}
-
+	
 	embed := discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{
 			Name:    "Class Selection",
@@ -113,6 +114,31 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			"You have now been given the base subclass: **```arm\n" + subclass + "```**\n" +
 			"Your starter weapon is now: **```fix\n" + weapon.Name + "```**\n" +
 			"I hope you have fun and enjoy your time on Kiko!",
+	}
+
+	user := database.User{
+		DiscordId: i.Member.User.ID, 
+		Class: i.MessageComponentData().Values[0], 
+		Subclass: subclass,
+		ClassAscension: "1",
+	}
+
+	item := database.Inventory{
+		DiscordId: i.Member.User.ID,
+		ItemName: weapon.Name,
+		ItemType: "weapon",
+		Active: true,
+		Durability: weapon.Stats.Durability,
+	}
+	
+	result := database.Db.Create(&user)
+	if result.Error != nil {
+		embed.Description = "There was a problem with registering your account, please try again later."
+	} else {
+		result = database.Db.Create(&item)
+		if result.Error != nil {
+			embed.Description = "There was a problem with registering your account, please try again later."
+		}
 	}
 
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{

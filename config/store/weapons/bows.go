@@ -16,12 +16,13 @@ var Common_Bow = types.Weapon{
 	Droppable: true,
 	InShop: true,
 	Tradable: true,
-	Stats: types.Stats{
+	Stats: types.ItemStats{
 		Strength: 1,
 		Agility: 1,
 		Mana: 0,
 		Health: 1,
 		Defence: 0,
 		Luck: 0,
+		Durability: 5,
 	},
 }

@@ -22,5 +22,15 @@ type Weapon struct {
 	Droppable bool
 	InShop bool
 	Tradable bool
-	Stats Stats
+	Stats ItemStats
+}
+
+type ItemStats struct {
+	Strength int
+	Agility int
+	Mana int
+	Health int
+	Defence int
+	Luck int
+	Durability int
 }

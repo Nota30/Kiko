@@ -4,6 +4,7 @@ import (
 	"github.com/Nota30/Kiko/tools"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var (
@@ -13,7 +14,15 @@ var (
 
 func Connect() {
 	dsn := tools.GetEnv("DB_URL")
-	Db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	env := tools.GetEnv("env")
+	log := logger.Default.LogMode(logger.Silent)
+	if env == "development" {
+		log = logger.Default.LogMode(logger.Warn)
+	}
+	
+	Db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		Logger: log,
+	})
 
 	if err != nil {
 		panic("failed to connect database")
