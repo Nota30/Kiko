@@ -51,15 +51,8 @@ func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		}
 
 		components = []discordgo.MessageComponent{
-			discordgo.ActionsRow{
-				Components: []discordgo.MessageComponent{
-					discordgo.SelectMenu{
-						CustomID: "select_class",
-						Placeholder: "Choose your class 👇",
-						Options:     choices,
-					},
-				},
-			}}
+			tools.NewSelectMenu("select_class", "Choose your class 👇", choices),
+		}
 	} else {
 		embed = discordgo.MessageEmbed{
 			Color: config.Color.Default,

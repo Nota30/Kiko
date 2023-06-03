@@ -11,6 +11,16 @@ func Respond(s *discordgo.Session, i *discordgo.InteractionCreate, content strin
 			})
 }
 
-func NewActionsRow() {}
+func NewSelectMenu(id string, placeholder string, options []discordgo.SelectMenuOption) discordgo.ActionsRow {
+	return discordgo.ActionsRow{
+		Components: []discordgo.MessageComponent{
+			discordgo.SelectMenu{
+				CustomID: id,
+				Placeholder: placeholder,
+				Options: options,
+			},
+		},
+	}
+}
 
 func NewEmbed() {}
