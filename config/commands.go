@@ -13,6 +13,10 @@ var Commands = []*discordgo.ApplicationCommand{
 	},
 	{
 		Name:        "register",
-		Description: "Register into the best RPG Game!",
+		Description: "Register into Kiko",
+	},
+	{
+		Name:        "profile",
+		Description: "View your profile on Kiko",
 	},
 }

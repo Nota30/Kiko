@@ -19,6 +19,8 @@ func InteractionHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		modules.Ping(s, i)
 	case "register":
 		modules.Register(s, i)
+	case "profile":
+		modules.Profile(s, i)
 	}
 
 }

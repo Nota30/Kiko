@@ -41,6 +41,15 @@ func DiscordConnect() {
 
 	logrus.Info("Connected to Discord!")
 
+	apps, _ := Dg.ApplicationCommands(Dg.State.Application.ID, "")
+	config.ApplicationCommands = apps
+
+	for _, val := range apps {
+		if val.Name == "register" {
+			config.RegisterCommand = "</register:" + val.ID + ">"
+		}
+	}
+	
 	env := tools.GetEnv("env")
 	if env == "development" {
 		logrus.Info("Registering Slash Commands in dev mode...")

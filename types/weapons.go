@@ -26,11 +26,11 @@ type Weapon struct {
 }
 
 type ItemStats struct {
-	Strength int
-	Agility int
-	Mana int
-	Health int
-	Defence int
-	Luck int
+	Strength float32
+	Agility float32
+	Mana float32
+	Health float32
+	Defence float32
+	Luck float32
 	Durability int
 }

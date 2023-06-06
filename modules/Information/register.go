@@ -114,6 +114,13 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		Class: i.MessageComponentData().Values[0], 
 		Subclass: subclass,
 		ClassAscension: "1",
+		Level: 1,
+		Strength: 1,
+		Agility: 1,
+		Mana: 1,
+		Health: 1,
+		Defence: 1,
+		Luck: 1,
 	}
 
 	item := database.Inventory{
