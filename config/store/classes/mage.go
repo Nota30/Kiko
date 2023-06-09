@@ -1,31 +1,29 @@
 package classes
 
-import "github.com/Nota30/Kiko/types"
-
 // Mage Class
-var BaseMage = types.Class{
+var BaseMage = TClass{
 	Name: "Mage",
 	Emote: "🧙‍♂️",
-	AdvanceClasses: types.Ascension{
+	AdvanceClasses: Ascension{
 		One: Wizard, 
 		Two: Sorcerer, 
 		Three: Summoner, 
-		Four: types.AdvAscension{
+		Four: AdvAscension{
 			First: Shaman, 
 			Second: Sage,
 		},
-		Five: types.AdvAscension{
+		Five: AdvAscension{
 			First: Necromancer,
 			Second: Archmage,
 		},
 	},
 }
 
-var Wizard = types.AdvanceClass{
+var Wizard = AdvanceClass{
 	Name: "Wizard",
 	Type: "Mage",
 	Ascension: 1,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -35,11 +33,11 @@ var Wizard = types.AdvanceClass{
 	},
 }
 
-var Sorcerer = types.AdvanceClass{
+var Sorcerer = AdvanceClass{
 	Name: "Sorcerer",
 	Type: "Mage",
 	Ascension: 2,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -49,11 +47,11 @@ var Sorcerer = types.AdvanceClass{
 	},
 }
 
-var Summoner = types.AdvanceClass{
+var Summoner = AdvanceClass{
 	Name: "Summoner",
 	Type: "Mage",
 	Ascension: 3,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -63,11 +61,11 @@ var Summoner = types.AdvanceClass{
 	},
 }
 
-var Shaman = types.AdvanceClass{
+var Shaman = AdvanceClass{
 	Name: "Shaman",
 	Type: "Mage",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -77,11 +75,11 @@ var Shaman = types.AdvanceClass{
 	},
 }
 
-var Sage = types.AdvanceClass{
+var Sage = AdvanceClass{
 	Name: "Sage",
 	Type: "Mage",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -91,11 +89,11 @@ var Sage = types.AdvanceClass{
 	},
 }
 
-var Necromancer = types.AdvanceClass{
+var Necromancer = AdvanceClass{
 	Name: "Necromancer",
 	Type: "Mage",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -105,11 +103,11 @@ var Necromancer = types.AdvanceClass{
 	},
 }
 
-var Archmage = types.AdvanceClass{
+var Archmage = AdvanceClass{
 	Name: "Archmage",
 	Type: "Mage",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,

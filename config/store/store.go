@@ -3,10 +3,9 @@ package store
 import (
 	"github.com/Nota30/Kiko/config/store/classes"
 	"github.com/Nota30/Kiko/config/store/weapons"
-	"github.com/Nota30/Kiko/types"
 )
 
-var Classes = types.Classes{
+var Classes = classes.TClasses{
 	"Warrior": classes.BaseWarrior,
 	"Archer": classes.BaseArcher,
 	"Mage": classes.BaseMage,
@@ -14,7 +13,7 @@ var Classes = types.Classes{
 	"Martial Artist": classes.BaseMartialArtist,
 }
 
-var Weapons = types.Weapons{
+var Weapons = weapons.TWeapons{
 	Swords: weapons.BaseSwords,
 	Bows: weapons.BaseBows,
 	Staffs: weapons.BaseStaffs,

@@ -1,13 +1,11 @@
 package weapons
 
-import "github.com/Nota30/Kiko/types"
-
-var BaseStaffs = types.BaseWeapon{
+var BaseStaffs = BaseWeapon{
 	Name: "Staff",
-	Weapons: []types.Weapon{Common_Staff},
+	Weapons: []TWeapon{Common_Staff},
 }
 
-var Common_Staff = types.Weapon{
+var Common_Staff = TWeapon{
 	Name: "Common Staff",
 	Type: "Staff",
 	Rarity: 1,
@@ -16,7 +14,7 @@ var Common_Staff = types.Weapon{
 	Droppable: true,
 	InShop: true,
 	Tradable: true,
-	Stats: types.ItemStats{
+	Stats: ItemStats{
 		Strength: 1,
 		Agility: 1,
 		Mana: 0,

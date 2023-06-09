@@ -5,7 +5,6 @@ go 1.19
 require (
 	github.com/bwmarrin/discordgo v0.27.1
 	github.com/joho/godotenv v1.5.1
-	github.com/pelletier/go-toml v1.9.5
 	github.com/redis/go-redis/v9 v9.0.5
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.1

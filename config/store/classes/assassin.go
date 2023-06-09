@@ -1,31 +1,29 @@
 package classes
 
-import "github.com/Nota30/Kiko/types"
-
 // Assasin Class
-var BaseAssassin = types.Class{
+var BaseAssassin = TClass{
 	Name: "Assassin",
 	Emote: "🗡️",
-	AdvanceClasses: types.Ascension{
+	AdvanceClasses: Ascension{
 		One: Thief, 
 		Two: Myrmidon, 
 		Three: Hitman, 
-		Four: types.AdvAscension{
+		Four: AdvAscension{
 			First: Rogue, 
 			Second: Executioner,
 		},
-		Five: types.AdvAscension{
+		Five: AdvAscension{
 			First: Slayer,
 			Second: Reaper,
 		},
 	},
 }
 
-var Thief = types.AdvanceClass{
+var Thief = AdvanceClass{
 	Name: "Thief",
 	Type: "Assassin",
 	Ascension: 1,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -35,11 +33,11 @@ var Thief = types.AdvanceClass{
 	},
 }
 
-var Myrmidon = types.AdvanceClass{
+var Myrmidon = AdvanceClass{
 	Name: "Myrmidon",
 	Type: "Assassin",
 	Ascension: 2,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -49,11 +47,11 @@ var Myrmidon = types.AdvanceClass{
 	},
 }
 
-var Hitman = types.AdvanceClass{
+var Hitman = AdvanceClass{
 	Name: "Hitman",
 	Type: "Assassin",
 	Ascension: 3,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -63,11 +61,11 @@ var Hitman = types.AdvanceClass{
 	},
 }
 
-var Rogue = types.AdvanceClass{
+var Rogue = AdvanceClass{
 	Name: "Rogue",
 	Type: "Assassin",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -77,11 +75,11 @@ var Rogue = types.AdvanceClass{
 	},
 }
 
-var Executioner = types.AdvanceClass{
+var Executioner = AdvanceClass{
 	Name: "Executioner",
 	Type: "Assassin",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -91,11 +89,11 @@ var Executioner = types.AdvanceClass{
 	},
 }
 
-var Slayer = types.AdvanceClass{
+var Slayer = AdvanceClass{
 	Name: "Slayer",
 	Type: "Assassin",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -105,11 +103,11 @@ var Slayer = types.AdvanceClass{
 	},
 }
 
-var Reaper = types.AdvanceClass{
+var Reaper = AdvanceClass{
 	Name: "Reaper",
 	Type: "Assassin",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,

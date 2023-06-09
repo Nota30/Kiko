@@ -1,13 +1,11 @@
 package weapons
 
-import "github.com/Nota30/Kiko/types"
-
-var BaseDaggers = types.BaseWeapon{
+var BaseDaggers = BaseWeapon{
 	Name: "Daggers",
-	Weapons: []types.Weapon{Common_Dagger},
+	Weapons: []TWeapon{Common_Dagger},
 }
 
-var Common_Dagger = types.Weapon{
+var Common_Dagger = TWeapon{
 	Name: "Common Dagger",
 	Type: "Dagger",
 	Rarity: 1,
@@ -16,7 +14,7 @@ var Common_Dagger = types.Weapon{
 	Droppable: true,
 	InShop: true,
 	Tradable: true,
-	Stats: types.ItemStats{
+	Stats: ItemStats{
 		Strength: 1,
 		Agility: 1,
 		Mana: 0,

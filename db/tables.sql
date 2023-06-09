@@ -39,3 +39,10 @@ CREATE TABLE IF NOT EXISTS INVENTORIES (
     created_at TIMESTAMP,
     updated_at TIMESTAMP DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS SERVERS (
+    id BIGSERIAL PRIMARY KEY,
+    guild_id VARCHAR NOT NULL,
+    spawnchannel VARCHAR,
+    unique(guild_id)
+)

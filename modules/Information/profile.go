@@ -1,4 +1,4 @@
-package modules
+package information
 
 import (
 	"fmt"
@@ -23,7 +23,7 @@ func Profile(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	embed := discordgo.MessageEmbed{
 		Color: config.Color.Default,
 		Author: &discordgo.MessageEmbedAuthor{
-			Name: "Kiko zProfile",
+			Name: "Kiko Profile",
 			IconURL: i.Member.AvatarURL(""),
 		},
 		Description: "",

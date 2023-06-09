@@ -1,6 +1,6 @@
-package types
+package weapons
 
-type Weapons struct {
+type TWeapons struct {
 	Swords BaseWeapon
 	Bows BaseWeapon
 	Staffs BaseWeapon
@@ -10,10 +10,10 @@ type Weapons struct {
 
 type BaseWeapon struct {
 	Name string
-	Weapons []Weapon
+	Weapons []TWeapon
 }
 
-type Weapon struct {
+type TWeapon struct {
 	Name string
 	Type string
 	Rarity int

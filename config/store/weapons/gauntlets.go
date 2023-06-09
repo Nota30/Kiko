@@ -1,13 +1,11 @@
 package weapons
 
-import "github.com/Nota30/Kiko/types"
-
-var BaseGauntlets = types.BaseWeapon{
+var BaseGauntlets = BaseWeapon{
 	Name: "Gauntlet",
-	Weapons: []types.Weapon{Common_Gauntlet},
+	Weapons: []TWeapon{Common_Gauntlet},
 }
 
-var Common_Gauntlet = types.Weapon{
+var Common_Gauntlet = TWeapon{
 	Name: "Common Gauntlet",
 	Type: "Gauntlet",
 	Rarity: 1,
@@ -16,7 +14,7 @@ var Common_Gauntlet = types.Weapon{
 	Droppable: true,
 	InShop: true,
 	Tradable: true,
-	Stats: types.ItemStats{
+	Stats: ItemStats{
 		Strength: 1,
 		Agility: 1,
 		Mana: 0,

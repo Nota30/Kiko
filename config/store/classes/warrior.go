@@ -1,31 +1,29 @@
 package classes
 
-import "github.com/Nota30/Kiko/types"
-
 // Warrior Class
-var BaseWarrior = types.Class{
+var BaseWarrior = TClass{
 	Name: "Warrior",
 	Emote: "⚔️",
-	AdvanceClasses: types.Ascension{
+	AdvanceClasses: Ascension{
 		One: Mercenary, 
 		Two: Soldier, 
 		Three: Knight, 
-		Four: types.AdvAscension{
+		Four: AdvAscension{
 			First: DarkKnight, 
 			Second: HolyKnight,
 		},
-		Five: types.AdvAscension{
+		Five: AdvAscension{
 			First: DeathKnight,
 			Second: Paladin,
 		},
 	},
 }
 
-var Mercenary = types.AdvanceClass{
+var Mercenary = AdvanceClass{
 	Name: "Mercenary",
 	Type: "Warrior",
 	Ascension: 1,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -35,11 +33,11 @@ var Mercenary = types.AdvanceClass{
 	},
 }
 
-var Soldier = types.AdvanceClass{
+var Soldier = AdvanceClass{
 	Name: "Soldier",
 	Type: "Warrior",
 	Ascension: 2,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -49,11 +47,11 @@ var Soldier = types.AdvanceClass{
 	},
 }
 
-var Knight = types.AdvanceClass{
+var Knight = AdvanceClass{
 	Name: "Knight",
 	Type: "Warrior",
 	Ascension: 3,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -63,11 +61,11 @@ var Knight = types.AdvanceClass{
 	},
 }
 
-var DarkKnight = types.AdvanceClass{
+var DarkKnight = AdvanceClass{
 	Name: "Dark Knight",
 	Type: "Warrior",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -77,11 +75,11 @@ var DarkKnight = types.AdvanceClass{
 	},
 }
 
-var HolyKnight = types.AdvanceClass{
+var HolyKnight = AdvanceClass{
 	Name: "Holy Knight",
 	Type: "Warrior",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -91,11 +89,11 @@ var HolyKnight = types.AdvanceClass{
 	},
 }
 
-var DeathKnight = types.AdvanceClass{
+var DeathKnight = AdvanceClass{
 	Name: "DeathKnight",
 	Type: "Warrior",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -105,11 +103,11 @@ var DeathKnight = types.AdvanceClass{
 	},
 }
 
-var Paladin = types.AdvanceClass{
+var Paladin = AdvanceClass{
 	Name: "Paladin",
 	Type: "Warrior",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,

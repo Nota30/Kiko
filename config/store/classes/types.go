@@ -1,8 +1,8 @@
-package types
+package classes
 
-type Classes map[string] Class
+type TClasses map[string] TClass
 
-type Class struct {
+type TClass struct {
 	Name string
 	Emote string
 	AdvanceClasses Ascension

@@ -1,4 +1,4 @@
-package modules
+package information
 
 import (
 	"github.com/bwmarrin/discordgo"

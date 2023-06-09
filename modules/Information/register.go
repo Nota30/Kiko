@@ -1,4 +1,4 @@
-package modules
+package information
 
 import (
 	"errors"
@@ -8,7 +8,6 @@ import (
 	"github.com/Nota30/Kiko/config/store/weapons"
 	database "github.com/Nota30/Kiko/db"
 	"github.com/Nota30/Kiko/tools"
-	"github.com/Nota30/Kiko/types"
 	"github.com/bwmarrin/discordgo"
 	"gorm.io/gorm"
 )
@@ -80,7 +79,7 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		return
 	}
 
-	var weapon types.Weapon
+	var weapon weapons.TWeapon
 	class := i.MessageComponentData().Values[0]
 	subclass := config.Classes[class].AdvanceClasses.One.Name
 
@@ -109,7 +108,7 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			"I hope you have fun and enjoy your time on Kiko!",
 	}
 
-	user := database.User{
+	user := &database.User{
 		DiscordId: i.Member.User.ID, 
 		Class: i.MessageComponentData().Values[0], 
 		Subclass: subclass,
@@ -123,7 +122,7 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		Luck: 1,
 	}
 
-	item := database.Inventory{
+	item := &database.Inventory{
 		DiscordId: i.Member.User.ID,
 		ItemName: weapon.Name,
 		ItemType: "weapon",
@@ -131,11 +130,11 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		Durability: weapon.Stats.Durability,
 	}
 	
-	result := database.Db.Create(&user)
+	result := database.Db.Create(user)
 	if result.Error != nil {
 		embed.Description = "There was a problem with registering your account, please try again later."
 	} else {
-		result = database.Db.Create(&item)
+		result = database.Db.Create(item)
 		if result.Error != nil {
 			embed.Description = "There was a problem with registering your account, please try again later."
 		}

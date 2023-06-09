@@ -1,31 +1,29 @@
 package classes
 
-import "github.com/Nota30/Kiko/types"
-
 // Martial Artist Class
-var BaseMartialArtist = types.Class{
+var BaseMartialArtist = TClass{
 	Name: "Martial Artist",
 	Emote: "🥋",
-	AdvanceClasses: types.Ascension{
+	AdvanceClasses: Ascension{
 		One: Outlaw,
 		Two: Barbarian,
 		Three: Striker,
-		Four: types.AdvAscension{
+		Four: AdvAscension{
 			First: Berserker, 
 			Second: Brawler,
 		},
-		Five: types.AdvAscension{
+		Five: AdvAscension{
 			First: Warlord,
 			Second: Grandmaster,
 		},
 	},
 }
 
-var Outlaw = types.AdvanceClass{
+var Outlaw = AdvanceClass{
 	Name: "Outlaw",
 	Type: "Martial Artist",
 	Ascension: 1,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -35,11 +33,11 @@ var Outlaw = types.AdvanceClass{
 	},
 }
 
-var Barbarian = types.AdvanceClass{
+var Barbarian = AdvanceClass{
 	Name: "Barbarian",
 	Type: "Martial Artist",
 	Ascension: 2,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -49,11 +47,11 @@ var Barbarian = types.AdvanceClass{
 	},
 }
 
-var Striker = types.AdvanceClass{
+var Striker = AdvanceClass{
 	Name: "Striker",
 	Type: "Martial Artist",
 	Ascension: 3,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -63,11 +61,11 @@ var Striker = types.AdvanceClass{
 	},
 }
 
-var Berserker = types.AdvanceClass{
+var Berserker = AdvanceClass{
 	Name: "Berserker",
 	Type: "Martial Artist",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -77,11 +75,11 @@ var Berserker = types.AdvanceClass{
 	},
 }
 
-var Brawler = types.AdvanceClass{
+var Brawler = AdvanceClass{
 	Name: "Brawler",
 	Type: "Martial Artist",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -91,11 +89,11 @@ var Brawler = types.AdvanceClass{
 	},
 }
 
-var Warlord = types.AdvanceClass{
+var Warlord = AdvanceClass{
 	Name: "Warlord",
 	Type: "Martial Artist",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -105,11 +103,11 @@ var Warlord = types.AdvanceClass{
 	},
 }
 
-var Grandmaster = types.AdvanceClass{
+var Grandmaster = AdvanceClass{
 	Name: "Grandmaster",
 	Type: "Martial Artist",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,

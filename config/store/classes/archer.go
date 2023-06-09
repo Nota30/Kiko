@@ -1,31 +1,29 @@
 package classes
 
-import "github.com/Nota30/Kiko/types"
-
 // Archer Class
-var BaseArcher = types.Class{
+var BaseArcher = TClass{
 	Name: "Archer",
 	Emote: "🏹",
-	AdvanceClasses: types.Ascension{
+	AdvanceClasses: Ascension{
 		One: Fowler, 
 		Two: Hunter, 
 		Three: Arbalist, 
-		Four: types.AdvAscension{
+		Four: AdvAscension{
 			First: Marksman, 
 			Second: Ranger,
 		},
-		Five: types.AdvAscension{
+		Five: AdvAscension{
 			First: Sniper,
 			Second: Sharpshooter,
 		},
 	},
 }
 
-var Fowler = types.AdvanceClass{
+var Fowler = AdvanceClass{
 	Name: "Fowler",
 	Type: "Archer",
 	Ascension: 1,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -35,11 +33,11 @@ var Fowler = types.AdvanceClass{
 	},
 }
 
-var Hunter = types.AdvanceClass{
+var Hunter = AdvanceClass{
 	Name: "Hunter",
 	Type: "Archer",
 	Ascension: 2,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -49,11 +47,11 @@ var Hunter = types.AdvanceClass{
 	},
 }
 
-var Arbalist = types.AdvanceClass{
+var Arbalist = AdvanceClass{
 	Name: "Arbalist",
 	Type: "Archer",
 	Ascension: 3,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -63,11 +61,11 @@ var Arbalist = types.AdvanceClass{
 	},
 }
 
-var Marksman = types.AdvanceClass{
+var Marksman = AdvanceClass{
 	Name: "Marksman",
 	Type: "Archer",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -77,11 +75,11 @@ var Marksman = types.AdvanceClass{
 	},
 }
 
-var Ranger = types.AdvanceClass{
+var Ranger = AdvanceClass{
 	Name: "Ranger",
 	Type: "Archer",
 	Ascension: 4,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -91,11 +89,11 @@ var Ranger = types.AdvanceClass{
 	},
 }
 
-var Sniper = types.AdvanceClass{
+var Sniper = AdvanceClass{
 	Name: "Sniper",
 	Type: "Archer",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
@@ -105,11 +103,11 @@ var Sniper = types.AdvanceClass{
 	},
 }
 
-var Sharpshooter = types.AdvanceClass{
+var Sharpshooter = AdvanceClass{
 	Name: "Sharpshooter",
 	Type: "Archer",
 	Ascension: 5,
-	Stats: types.Stats{
+	Stats: Stats{
 		Strength: 4,
 		Agility: 2,
 		Mana: 2,
