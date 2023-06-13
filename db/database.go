@@ -1,7 +1,8 @@
 package database
 
 import (
-	"github.com/Nota30/Kiko/tools"
+	"os"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -13,8 +14,8 @@ var (
 )
 
 func Connect() {
-	dsn := tools.GetEnv("DB_URL")
-	env := tools.GetEnv("env")
+	dsn := os.Getenv("DB_URL")
+	env := os.Getenv("env")
 	log := logger.Default.LogMode(logger.Silent)
 	if env == "development" {
 		log = logger.Default.LogMode(logger.Warn)

@@ -1,6 +1,8 @@
 package bot
 
 import (
+	"os"
+
 	"github.com/Nota30/Kiko/bot/events"
 	"github.com/Nota30/Kiko/config"
 	"github.com/Nota30/Kiko/tools"
@@ -15,7 +17,7 @@ var (
 func DiscordConnect() {
 	logrus.Info("Starting connection to Discord.")
 	var err error
-	Dg, err = discordgo.New(tools.GetEnv("DISCORD_TOKEN"))
+	Dg, err = discordgo.New(os.Getenv("DISCORD_TOKEN"))
 	if err != nil {
 		logrus.Error("There was an error creating the discord session,", err)
 		return
@@ -50,7 +52,7 @@ func DiscordConnect() {
 		}
 	}
 	
-	env := tools.GetEnv("env")
+	env := os.Getenv("env")
 	if env == "development" {
 		logrus.Info("Registering Slash Commands in dev mode...")
 		tools.RegisterCommands(Dg, config.DevGuild)
