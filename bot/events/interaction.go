@@ -24,5 +24,7 @@ func InteractionHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		info.Profile(s, i)
 	case "move":
 		tower.Move(s, i)
+	case "explore":
+		tower.Explore(s, i)
 	}
 }

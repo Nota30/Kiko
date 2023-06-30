@@ -24,6 +24,11 @@ var Commands = []*discordgo.ApplicationCommand{
 		DMPermission: &dmPermission,
 	},
 	{
+		Name:        "explore",
+		Description: "Explore the floor you are on",
+		DMPermission: &dmPermission,
+	},
+	{
 		Name:        "move",
 		Description: "Move to a different floor in the tower",
 		DMPermission: &dmPermission,
