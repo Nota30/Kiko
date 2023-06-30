@@ -21,8 +21,8 @@ Check out our [contributing guidelines](https://github.com/Nota30/Kiko/blob/main
 
 ## Maintainers
 
-- Nota#8888 (Lead Developer) ([Github](https://github.com/Nota30))
+- `notaa.` (Lead Developer) ([Github](https://github.com/Nota30))
 
 ## Contributors
 
-- Skizzers#1980 ([Github](https://github.com/Tech13-08))
+- `skizzers13` ([Github](https://github.com/Tech13-08))
