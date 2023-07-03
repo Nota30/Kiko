@@ -3,12 +3,16 @@ package tools
 import "github.com/bwmarrin/discordgo"
 
 func Respond(s *discordgo.Session, i *discordgo.InteractionCreate, content string) {
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
 					Content: content,
 				},
 			})
+			
+	if err != nil {
+		SendError(s, i, "An error occured while responding.")
+	}
 }
 
 func NewSelectMenu(id string, placeholder string, options []discordgo.SelectMenuOption) discordgo.ActionsRow {

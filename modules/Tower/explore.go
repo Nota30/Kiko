@@ -30,7 +30,11 @@ func ExploreCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				nexplore = 100
 			}
 			floor.Exploration = nexplore
-			models.Floor.SaveFloor(floor)
+			_, err := models.Floor.SaveFloor(floor)
+			if err != nil {
+				tools.SendError(s, i, "Was unable to save the data.")
+				return
+			}
 		} else {
 			explore = 0
 		}
