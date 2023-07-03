@@ -1,7 +1,7 @@
 package events
 
 import (
-	modules "github.com/Nota30/Kiko/modules/Information"
+	information "github.com/Nota30/Kiko/modules/Information"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -18,7 +18,7 @@ func ComponentHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	if i.MessageComponentData().ComponentType == 3 {
 		switch i.MessageComponentData().CustomID {
 			case "select_class":
-				modules.RegisterSelector(s, i)
+				information.RegisterSelector(s, i)
 		}
 	}
 }

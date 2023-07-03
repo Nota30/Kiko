@@ -1,7 +1,7 @@
 package events
 
 import (
-	info "github.com/Nota30/Kiko/modules/Information"
+	information "github.com/Nota30/Kiko/modules/Information"
 	tower "github.com/Nota30/Kiko/modules/Tower"
 	"github.com/bwmarrin/discordgo"
 )
@@ -17,14 +17,14 @@ func InteractionHandler(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 	switch i.ApplicationCommandData().Name {
 	case "ping":
-		info.Ping(s, i)
+		information.PingCMD(s, i)
 	case "register":
-		info.Register(s, i)
+		information.RegisterCMD(s, i)
 	case "profile":
-		info.Profile(s, i)
+		information.ProfileCMD(s, i)
 	case "move":
-		tower.Move(s, i)
+		tower.MoveCMD(s, i)
 	case "explore":
-		tower.Explore(s, i)
+		tower.ExploreCMD(s, i)
 	}
 }

@@ -6,37 +6,30 @@ import (
 
 	"github.com/Nota30/Kiko/config"
 	"github.com/Nota30/Kiko/config/store/weapons"
-	database "github.com/Nota30/Kiko/db"
+	"github.com/Nota30/Kiko/models"
 	"github.com/Nota30/Kiko/tools"
 	"github.com/bwmarrin/discordgo"
 	"gorm.io/gorm"
 )
 
-func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	var user database.User
-	var embed discordgo.MessageEmbed
+func RegisterCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	tools.AwaitInteraction(s, i)
 	var components []discordgo.MessageComponent
+	embed := tools.NewEmbed(i.Member, "Kiko Registration")
 	classes := config.Classes
 	choices := []discordgo.SelectMenuOption{}
 
-	result := database.Db.Where("discord_id = ?", i.Member.User.ID).First(&user)
-	
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		embed = discordgo.MessageEmbed{
-			Color: config.Color.Default,
-			Author: &discordgo.MessageEmbedAuthor{
-				Name:    "Kiko Registration",
-				IconURL: i.Member.AvatarURL(""),
-			},
-			Description: "Welcome to Kiko! Here you will register into the game and choose a class." +
-				"It is also recommended to check out the `/tutorial` command before you proceed with the game.\n" +
-				"**Please note that you cannot change classes further on in the game.**\n\n" +
-				"There are 5 classes, which are:\n ```md\n# Warrior\n# Mage\n# Archer\n# Assassin\n# Martial Artist```\n" +
-				"Each class has several sub-classes which you will evolve into as you further progress into the game. " +
-				"You will start out with the base class and recieve the default weapon for that class. " +
-				"For more information on classes please check `/classes`.\n",
-		}
+	_, err := models.User.FindUser(i.Member.User.ID)
 
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		embed.Description = "Welcome to Kiko! Here you will register into the game and choose a class." +
+		"It is also recommended to check out the `/tutorial` command before you proceed with the game.\n" +
+		"**Please note that you cannot change classes further on in the game.**\n\n" +
+		"There are 5 classes, which are:\n ```md\n# Warrior\n# Mage\n# Archer\n# Assassin\n# Martial Artist```\n" +
+		"Each class has several sub-classes which you will evolve into as you further progress into the game. " +
+		"You will start out with the base class and recieve the default weapon for that class. " +
+		"For more information on classes please check `/classes`.\n"
+		
 		for class, value := range classes {
 			choice := discordgo.SelectMenuOption{
 				Label: class,
@@ -53,26 +46,20 @@ func Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			tools.NewSelectMenu("select_class", "Choose your class 👇", choices),
 		}
 	} else {
-		embed = discordgo.MessageEmbed{
-			Color: config.Color.Default,
-			Author: &discordgo.MessageEmbedAuthor{
-				Name:    "Kiko Registration",
-				IconURL: i.Member.AvatarURL(""),
-			},
-			Description: "We love your enthusiasm for Kiko, however it seems you already have an active account!",
-		}
+		embed.Description = "We love your enthusiasm for Kiko, however it seems you already have an active account!"
 		components = nil
 	}
 
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{
-			Embeds:     []*discordgo.MessageEmbed{&embed},
-			Components: components,
-		},
+	_, err = s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+		Embeds: &[]*discordgo.MessageEmbed{&embed},
+		Components: &components,
 	})
+	if err != nil {
+		tools.SendError(s, i, "An error occured while responding.")
+	}
 }
 
+// Handle the Selector component for the register command
 func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	isExpired := time.Since(tools.ConvertToTime(i.Message.ID))
 	if isExpired.Minutes() > 3 {
@@ -95,56 +82,54 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	case "Archer":
 		weapon = weapons.Common_Bow
 	}
-	
-	embed := discordgo.MessageEmbed{
-		Author: &discordgo.MessageEmbedAuthor{
-			Name:    "Class Selection",
-			IconURL: i.Member.AvatarURL(""),
-		},
-		Color: config.Color.Default,
-		Description: "The `" + i.MessageComponentData().Values[0] + "` class has been selected. " +
-			"You have now been given the base subclass: **```arm\n" + subclass + "```**\n" +
-			"Your starter weapon is now: **```fix\n" + weapon.Name + "```**\n" +
-			"I hope you have fun and enjoy your time on Kiko!",
-	}
 
-	user := &database.User{
-		DiscordId: i.Member.User.ID, 
-		Class: i.MessageComponentData().Values[0], 
+	_, err := models.User.CreateUser(&models.TUser{
+		DiscordId: i.Member.User.ID,
+		Class: i.MessageComponentData().Values[0],
 		Subclass: subclass,
 		ClassAscension: "1",
-		Level: 1,
-		Strength: 1,
-		Agility: 1,
-		Mana: 1,
-		Health: 1,
-		Defence: 1,
-		Luck: 1,
+	})
+	if err != nil {
+		tools.SendError(s, i, "There was a problem with registering your account, please try again later.")
+		return
+	} 
+
+	_, err = models.Floor.CreateFloor(&models.TFloor{
+		DiscordId: i.Member.User.ID,
+		Active: true,
+	})
+	if err != nil {
+		tools.SendError(s, i, "There was a problem with registering your account, please try again later.")
+		return
 	}
 
-	item := &database.Inventory{
+	_, err = models.Inventory.CreateInventory(&models.TInventory{
 		DiscordId: i.Member.User.ID,
 		ItemName: weapon.Name,
 		ItemType: "weapon",
 		Active: true,
 		Durability: weapon.Stats.Durability,
-	}
-	
-	result := database.Db.Create(user)
-	if result.Error != nil {
-		embed.Description = "There was a problem with registering your account, please try again later."
-	} else {
-		result = database.Db.Create(item)
-		if result.Error != nil {
-			embed.Description = "There was a problem with registering your account, please try again later."
-		}
+	})
+	if err != nil {
+		tools.SendError(s, i, "There was a problem with registering your account, please try again later.")
+		return
 	}
 
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+	embed := tools.NewEmbed(i.Member, "Class Selection")
+	embed.Description = "The `" + i.MessageComponentData().Values[0] + "` class has been selected. " +
+	"You have now been given the base subclass: **```arm\n" + subclass + "```**\n" +
+	"Your starter weapon is now: **```fix\n" + weapon.Name + "```**\n" +
+	"I hope you have fun and enjoy your time on Kiko!"
+
+	err = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseUpdateMessage,
 		Data: &discordgo.InteractionResponseData{
 			Embeds:     []*discordgo.MessageEmbed{&embed},
 			Components: []discordgo.MessageComponent{},
 		},
 	})
+
+	if err != nil {
+		tools.SendError(s, i, "An error occured while responding.")
+	}
 }
