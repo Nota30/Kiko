@@ -29,6 +29,11 @@ var Commands = []*discordgo.ApplicationCommand{
 		DMPermission: &dmPermission,
 	},
 	{
+		Name:        "inventory",
+		Description: "View the items you have",
+		DMPermission: &dmPermission,
+	},
+	{
 		Name:        "move",
 		Description: "Move to a different floor in the tower",
 		DMPermission: &dmPermission,
@@ -38,6 +43,20 @@ var Commands = []*discordgo.ApplicationCommand{
 				Type: discordgo.ApplicationCommandOptionInteger,
 				MinValue: &towerMinFloor,
 				Description: "The floor number",
+				Required: true,
+			},
+		},
+	},
+	{
+		Name:        "battle",
+		Description: "Start a battle using a battle card",
+		DMPermission: &dmPermission,
+		Options: []*discordgo.ApplicationCommandOption{
+			{
+				Name: "id",
+				Type: discordgo.ApplicationCommandOptionInteger,
+				MinValue: &towerMinFloor,
+				Description: "The id of the battle card (You can find the id using the /inventory command)",
 				Required: true,
 			},
 		},

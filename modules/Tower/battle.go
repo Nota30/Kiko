@@ -1,0 +1,3 @@
+package tower
+
+func Battle() {}

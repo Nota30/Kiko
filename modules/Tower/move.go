@@ -3,58 +3,39 @@ package tower
 import (
 	"fmt"
 
-	database "github.com/Nota30/Kiko/db"
+	"github.com/Nota30/Kiko/database"
+	"github.com/Nota30/Kiko/models"
+	"github.com/Nota30/Kiko/tools"
 	"github.com/bwmarrin/discordgo"
 )
 
-func Move(s *discordgo.Session, i *discordgo.InteractionCreate) {
+func MoveCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
+	})
 	options := i.ApplicationCommandData().Options
-	var data []database.Floor
-	database.Db.Where("discord_id = ?", i.Member.User.ID).Order("floor desc").Find(&data)
-
-	if len(data) == 0 {
-		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-			Type: discordgo.InteractionResponseChannelMessageWithSource,
-			Data: &discordgo.InteractionResponseData{
-			Content: "You can't move floors yet! You haven't explored any floors yet. (Tip: You can explore floors with the `/explore` command)",
-			},
-		})
-	} else if int(options[0].IntValue()) > data[0].Floor {
-		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-			Type: discordgo.InteractionResponseChannelMessageWithSource,
-			Data: &discordgo.InteractionResponseData{
-			Content: "You can't move to that floor yet! You haven't reached that floor yet. You can ascend to higher floors by exploring and defeating enemies in the tower",
-			},
-		})
+	embed := tools.NewEmbed(i.Member, "Move Floors")
+	embed.Description = fmt.Sprintf("You have moved to Floor **%d**", int(options[0].IntValue()))
+	floor, err := models.Floor.FindFloor(i.Member.User.ID, int(options[0].IntValue()))
+	if err != nil {
+		embed.Description = "You have not reached that floor yet! You can only move to floors you have explored or unlocked. (You can unlock floors by using the `/explore` command)"
 	} else {
-		database.Db.Model(&database.Floor{}).Where("discord_id = ?", i.Member.User.ID).Where("active = ?", true).Update("active", false)
-		curr, found := getData(data, int(options[0].IntValue()))
-		if found {
-			curr.Active = true
-			database.Db.Save(&curr)
-		} else {
-			database.Db.Save(&database.Floor{
-				DiscordId: i.Member.User.ID,
-				Active: true,
-				Floor: int(options[0].IntValue()),
-			})
-		}
-
-		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-			Type: discordgo.InteractionResponseChannelMessageWithSource,
-			Data: &discordgo.InteractionResponseData{
-			Content: fmt.Sprintf("You have moved to Floor **%d**", int(options[0].IntValue())),
-			},
-		})
-	}
-}
-
-func getData(data []database.Floor, floor int) (user database.Floor, found bool) {
-	for _, val := range data {
-		if val.Floor == floor {
-			return val, true
+		if !floor.Active {
+			err := database.Db.Model(&models.TFloor{}).Where("active = ?", true).Where("discord_id", i.Member.User.ID).Update("active", false).Error
+			if err != nil {
+				tools.SendError(s, i, "Couldn't update data. Please try again later.")
+				return
+			}
+			floor.Active = true
+			_, err = models.Floor.SaveFloor(floor)
+			if err != nil {
+				tools.SendError(s, i, "Couldn't update data. Please try again later.")
+				return
+			}
 		}
 	}
 
-	return database.Floor{}, false
+	s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+		Embeds: &[]*discordgo.MessageEmbed{&embed},
+	})
 }

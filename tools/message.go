@@ -23,4 +23,14 @@ func NewSelectMenu(id string, placeholder string, options []discordgo.SelectMenu
 	}
 }
 
-func NewEmbed() {}
+func SendError(s *discordgo.Session, i *discordgo.InteractionCreate, description string) {
+	embed := NewErrorEmbed(i.Member, description)
+	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseUpdateMessage,
+		Data: &discordgo.InteractionResponseData{
+			Content: "",
+			Embeds: []*discordgo.MessageEmbed{&embed},
+			Components: nil,
+		},
+	})
+}

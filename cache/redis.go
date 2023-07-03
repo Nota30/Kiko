@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/redis/go-redis/v9"
+	"github.com/sirupsen/logrus"
 )
 
 var (
@@ -17,4 +18,11 @@ func Connect() {
         Password: "",
         DB:       0,
     })
+
+	pong, err := Client.Ping(Ctx).Result()
+	if err != nil {
+		logrus.Fatal(err)
+	} else {
+		logrus.Info("Connected to Redis ", pong)
+	}
 }
