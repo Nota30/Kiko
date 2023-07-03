@@ -12,10 +12,7 @@ import (
 )
 
 func ExploreCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
-	})
-
+	tools.AwaitInteraction(s, i)
 	embed := tools.NewEmbed(i.Member, i.Member.User.Username + "'s Adventure")
 	floor, err := models.Floor.FindActiveFloor(i.Member.User.ID)
 	if err != nil {
@@ -53,9 +50,12 @@ func ExploreCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		}
 	}
 
-	s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+	_, err = s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
 		Embeds: &[]*discordgo.MessageEmbed{&embed},
 	})
+	if err != nil {
+		tools.SendError(s, i, "An error occured while responding.")
+	}
 }
 
 func randFloat(min, max float64)  float64 {

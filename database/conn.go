@@ -28,8 +28,11 @@ func ConnDB(dbConURL string) {
 		logrus.Fatal(err)
 	}
 	// migration
-	Db.AutoMigrate(&models.TUser{}, &models.TFloor{}, &models.TInventory{})
-
+	err = Db.AutoMigrate(&models.TUser{}, &models.TFloor{}, &models.TInventory{})
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	
 	models.User = models.NewUserModel(Db)
 	models.Floor = models.NewFloorModel(Db)
 	models.Inventory = models.NewInventoryModel(Db)

@@ -10,10 +10,7 @@ import (
 )
 
 func ProfileCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
-	})
-
+	tools.AwaitInteraction(s, i)
 	embed := tools.NewEmbed(i.Member, "Kiko Profile")
 
 	user, err := models.User.FindUser(i.Member.User.ID)
@@ -26,7 +23,10 @@ func ProfileCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		embed.Description = general + "\n**Stats**" + stats
 	}
 
-	s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+	_, err = s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
 		Embeds: &[]*discordgo.MessageEmbed{&embed},
 	})
+	if err != nil {
+		tools.SendError(s, i, "An error occured while responding.")
+	}
 }

@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/sirupsen/logrus"
 )
 
 func MSGCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -36,6 +37,8 @@ func MSGCreateHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if !exists {
 		return
 	}
+
+	logrus.Info(exists)
 }
 
 func getCommand(str string, n int) string {

@@ -13,6 +13,7 @@ import (
 )
 
 func RegisterCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	tools.AwaitInteraction(s, i)
 	var components []discordgo.MessageComponent
 	embed := tools.NewEmbed(i.Member, "Kiko Registration")
 	classes := config.Classes
@@ -49,13 +50,13 @@ func RegisterCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		components = nil
 	}
 
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{
-			Embeds:     []*discordgo.MessageEmbed{&embed},
-			Components: components,
-		},
+	_, err = s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+		Embeds: &[]*discordgo.MessageEmbed{&embed},
+		Components: &components,
 	})
+	if err != nil {
+		tools.SendError(s, i, "An error occured while responding.")
+	}
 }
 
 // Handle the Selector component for the register command
@@ -120,11 +121,15 @@ func RegisterSelector(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	"Your starter weapon is now: **```fix\n" + weapon.Name + "```**\n" +
 	"I hope you have fun and enjoy your time on Kiko!"
 
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+	err = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseUpdateMessage,
 		Data: &discordgo.InteractionResponseData{
 			Embeds:     []*discordgo.MessageEmbed{&embed},
 			Components: []discordgo.MessageComponent{},
 		},
 	})
+
+	if err != nil {
+		tools.SendError(s, i, "An error occured while responding.")
+	}
 }

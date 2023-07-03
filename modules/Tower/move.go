@@ -10,9 +10,7 @@ import (
 )
 
 func MoveCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
-	})
+	tools.AwaitInteraction(s, i)
 	options := i.ApplicationCommandData().Options
 	embed := tools.NewEmbed(i.Member, "Move Floors")
 	embed.Description = fmt.Sprintf("You have moved to Floor **%d**", int(options[0].IntValue()))
@@ -35,7 +33,10 @@ func MoveCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		}
 	}
 
-	s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+	_, err = s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
 		Embeds: &[]*discordgo.MessageEmbed{&embed},
 	})
+	if err != nil {
+		tools.SendError(s, i, "An error occured while responding.")
+	}
 }
