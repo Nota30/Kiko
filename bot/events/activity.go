@@ -6,6 +6,7 @@ import (
 
 	"github.com/Nota30/Kiko/config"
 	"github.com/bwmarrin/discordgo"
+	"github.com/sirupsen/logrus"
 )
 
 type ChannelActivity struct {
@@ -76,7 +77,11 @@ func ActivityHandler(session *discordgo.Session, message *discordgo.MessageCreat
 			if enemy != nil {
 				activity.LastSpawn = time.Now()
 				enemyEmbed := config.GetEnemyEmbed(enemy)
-				session.ChannelMessageSendEmbed(channelID, enemyEmbed)
+				_, err := session.ChannelMessageSendEmbed(channelID, enemyEmbed)
+				if err != nil {
+					logrus.Error("Error with sending enemy embed")
+					return
+				}
 			}
 		}
 	}

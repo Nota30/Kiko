@@ -40,8 +40,8 @@ var angel = EnemyStruct{
 var enemies = []EnemyStruct{hollow, angel}
 
 func GetRandomEnemy() *EnemyStruct {
-	rand.Seed(time.Now().UnixNano())
-	spawnChance := (rand.Intn(max-min+1) + min)
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	spawnChance := (r.Uint32()%(max-min) + min)
 	// 1 out of 10 chance for enemy to spawn
 	if spawnChance == 5 {
 		return &enemies[rand.Intn(len(enemies))]
