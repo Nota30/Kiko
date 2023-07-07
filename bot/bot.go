@@ -22,10 +22,11 @@ func DiscordConnect() {
 		logrus.Error("There was an error creating the discord session,", err)
 		return
 	}
-	
+
 	Dg.AddHandler(events.MSGCreateHandler)
 	Dg.AddHandler(events.InteractionHandler)
 	Dg.AddHandler(events.ComponentHandler)
+	Dg.AddHandler(events.ActivityHandler)
 
 	Dg.Identify.Intents |= discordgo.IntentMessageContent
 	Dg.Identify.Intents |= discordgo.IntentsGuildMessages
@@ -51,7 +52,7 @@ func DiscordConnect() {
 			config.RegisterCommand = "</register:" + val.ID + ">"
 		}
 	}
-	
+
 	env := os.Getenv("env")
 	if env == "development" {
 		logrus.Info("Registering Slash Commands in dev mode...")
