@@ -53,7 +53,7 @@ func GetRandomEnemy() *EnemyStruct {
 func GetEnemyEmbed(enemy *EnemyStruct) *discordgo.MessageEmbed {
 	return &discordgo.MessageEmbed{
 		Title:       "Enemy Spawned!",
-		Color:       0xFF0000,
+		Color:       Color.Default,
 		Description: "**" + enemy.Name + "**:\n\tStength:" + fmt.Sprint(enemy.Strength) + "\n\tHealth:" + fmt.Sprint(enemy.Health) + "\n\tMana:" + fmt.Sprint(enemy.Mana) + "\n\tDefence:" + fmt.Sprint(enemy.Defence),
 	}
 }
