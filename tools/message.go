@@ -55,3 +55,32 @@ func SendError(s *discordgo.Session, i *discordgo.InteractionCreate, description
 		}
 	}
 }
+
+func ResponseEdit(s *discordgo.Session, i *discordgo.InteractionCreate, messageData *MessageData) {
+	var embeds *[]*discordgo.MessageEmbed
+	if messageData.Embed != nil {
+		embeds = &[]*discordgo.MessageEmbed{messageData.Embed}
+	}
+
+	if messageData.Embeds != nil {
+		embeds = messageData.Embeds
+	}
+
+	_, err := s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+		Content: &messageData.Content,
+		Embeds: embeds,
+		Components: messageData.Components,
+	})
+
+	if err != nil {
+		SendError(s, i, "An error occured while responding.")
+	}
+}
+
+type MessageData struct {
+	Content string
+	Embed *discordgo.MessageEmbed
+	Embeds *[]*discordgo.MessageEmbed
+	Components *[]discordgo.MessageComponent
+	Files []*discordgo.File
+}

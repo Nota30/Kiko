@@ -23,10 +23,7 @@ func ProfileCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		embed.Description = general + "\n**Stats**" + stats
 	}
 
-	_, err = s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
-		Embeds: &[]*discordgo.MessageEmbed{&embed},
+	tools.ResponseEdit(s, i, &tools.MessageData{
+		Embed: &embed,
 	})
-	if err != nil {
-		tools.SendError(s, i, "An error occured while responding.")
-	}
 }
