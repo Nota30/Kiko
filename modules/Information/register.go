@@ -50,13 +50,10 @@ func RegisterCMD(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		components = nil
 	}
 
-	_, err = s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
-		Embeds: &[]*discordgo.MessageEmbed{&embed},
+	tools.ResponseEdit(s, i, &tools.MessageData{
+		Embed: &embed,
 		Components: &components,
 	})
-	if err != nil {
-		tools.SendError(s, i, "An error occured while responding.")
-	}
 }
 
 // Handle the Selector component for the register command
